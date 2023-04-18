@@ -28,12 +28,15 @@ public class LoginController {
 
     @FXML
     private static PasswordField passwordField;
+    public Button registerButton;
 
     @FXML
     private Button loginButton;
 
     @FXML
     private Label messageLabel;
+
+
 
     public static void showAlert(Alert.AlertType information, String felhasználó_törlése, String message, String s) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -42,17 +45,7 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    public static User getLoggedInUser() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        List<User> users = readUsersFromFile();
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return user;
-            }
-        }
-        return null;
-    }
+
     private User getUser(String username) {
         List<User> users = readUsersFromFile();
         for (User user : users) {
@@ -65,7 +58,7 @@ public class LoginController {
 
     public static void showLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("login.fxml"));
+            FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("/com/example/vvproject/login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
@@ -76,18 +69,7 @@ public class LoginController {
         }
     }
 
-    @FXML
-    void initialize() {
-        // Ha a fájl nem létezik, létrehozzuk üresen
-        File file = new File(fileName);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
 
     @FXML
@@ -142,6 +124,20 @@ public class LoginController {
             pause.play();
         }
     }
+    @FXML
+    void initialize() {
+        // Ha a fájl nem létezik, létrehozzuk üresen
+        File file = new File(fileName);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 
     private String getUserGroup(String username) {
         String group = "";
@@ -162,7 +158,17 @@ public class LoginController {
         }
         return group;
     }
-
+    public static User getLoggedInUser() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        List<User> users = readUsersFromFile();
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
     public boolean authenticate(String username, String password) {
         List<User> users = readUsersFromFile();
         for (User user : users) {
@@ -286,6 +292,19 @@ public class LoginController {
             alert.setContentText("Invalid username or password!");
             alert.showAndWait();
         }
+    }
+
+    public boolean validateLogin(String username, String password) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+        List<User> users = readUsersFromFile();
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -24,7 +24,7 @@ public class EditProfileController {
     public void setUser(User user) {
         this.user = user;
         // felhasználónév és jelszó mezők inicializálása
-        usernameField.setText(user.getName());
+        usernameField.setText(user.getUsername());
         passwordField.setText(user.getPassword());
     }
 

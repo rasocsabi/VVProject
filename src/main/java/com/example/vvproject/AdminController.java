@@ -182,7 +182,7 @@ public class AdminController implements Initializable {
             stage.setScene(scene);
             stage.show();
             EditUsersController controller = loader.getController();
-            controller.setUsers(userList);
+            controller.setUsers(users);
         } catch (IOException e) {
             e.printStackTrace();
         }

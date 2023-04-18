@@ -4,8 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vvproject.EditUsersController">
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
@@ -15,7 +16,7 @@
             <Font size="20"/>
         </font>
     </Label>
-    <TableView fx:id="usersTable">
+    <TableView fx:id="tableView">
         <columns>
             <TableColumn fx:id="usernameColumn" text="Felhasználónév" />
             <TableColumn fx:id="groupColumn" text="Csoport" />
@@ -23,18 +24,26 @@
         </columns>
     </TableView>
     <HBox spacing="10">
-        <TextField fx:id="usernameField" promptText="Felhasználónév"/>
-        <ChoiceBox fx:id="groupChoiceBox">
+        <Label text="Felhasználónév:"/>
+        <Label fx:id="usernameLabel"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Új jelszó:"/>
+        <TextField fx:id="passwordField" promptText="Új jelszó"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Új csoport:"/>
+        <ComboBox fx:id="groupComboBox">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String>Csoport 1</String>
                     <String>Csoport 2</String>
                 </FXCollections>
             </items>
-            <defaultValue>Csoport 1</defaultValue>
-        </ChoiceBox>
-        <Button text="Hozzáadás" onAction="#onAddButtonClicked"/>
+            <promptText>Kiválasztás</promptText>
+        </ComboBox>
     </HBox>
-    <Button text="Mentés" onAction="#onSaveButtonClicked" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" alignment="BOTTOM_RIGHT"/>
+    <Button text="Mentés" onAction="#onSaveButtonClicked"/>
+    <Button text="Mégse" onAction="#onCancelButtonClicked"/>
     <Label fx:id="messageLabel"/>
 </VBox>
