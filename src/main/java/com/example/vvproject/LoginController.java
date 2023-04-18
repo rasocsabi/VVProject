@@ -1,6 +1,7 @@
 package com.example.vvproject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,13 +21,13 @@ import javafx.util.Duration;
 
 public class LoginController {
 
-    private final String fileName = "users.csv";
+    private static final String fileName = "users.csv";
 
     @FXML
-    private TextField usernameField;
+    private static TextField usernameField;
 
     @FXML
-    private PasswordField passwordField;
+    private static PasswordField passwordField;
 
     @FXML
     private Button loginButton;
@@ -34,12 +35,32 @@ public class LoginController {
     @FXML
     private Label messageLabel;
 
-    public static void showAlert(String message, String s) {
+    public static void showAlert(Alert.AlertType information, String felhasználó_törlése, String message, String s) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Hiba");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public static User getLoggedInUser() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        List<User> users = readUsersFromFile();
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    private User getUser(String username) {
+        List<User> users = readUsersFromFile();
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public static void showLogin() {
@@ -68,45 +89,78 @@ public class LoginController {
         }
     }
 
+
     @FXML
     void onLoginButtonClicked(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
         if (authenticate(username, password)) {
-            // Ha az autentikáció sikeres, kiírjuk az üzenetet, majd átirányítjuk az admin felületre
-            messageLabel.setText("Sikeres bejelentkezés!");
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(e -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("com/example/vvproject/admin.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            pause.play();
+            User loggedInUser = getUser(username);
+            // Sikeres bejelentkezés esetén lekérdezzük a felhasználó csoportját
+            String group = getUserGroup(username);
+            if (group.equals("1")) {
+                // Ha a csoport 1, átirányítjuk az admin felületre
+                messageLabel.setText("Sikeres bejelentkezés!");
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(e -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/vvproject/admin.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                pause.play();
+            } else if (group.equals("2")) {
+                // Ha a csoport 2, átirányítjuk a felhasználói felületre
+                messageLabel.setText("Sikeres bejelentkezés!");
+                PauseTransition pause = new PauseTransition(Duration.seconds(1));
+                pause.setOnFinished(e -> {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/vvproject/user.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root);
+                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        stage.setScene(scene);
+                        stage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+                pause.play();
+            }
         } else {
             // Ha a felhasználónév vagy jelszó helytelen, kiírjuk, majd várunk 3 másodpercet és átirányítjuk a regisztrációs felületre
             messageLabel.setText("Sikertelen bejelentkezés!");
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(e -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/vvproject/registration.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
             });
             pause.play();
         }
+    }
+
+    private String getUserGroup(String username) {
+        String group = "";
+        try {
+            File file = new File("users.csv");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] fields = line.split(",");
+                if (fields[0].equals(username)) {
+                    group = fields[2];
+                    break;
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return group;
     }
 
     public boolean authenticate(String username, String password) {
@@ -128,7 +182,7 @@ public class LoginController {
         writeUsersToFile(users);
     }
 
-    private List<User> readUsersFromFile() {
+    private static List<User> readUsersFromFile() {
         List<User> users = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(fileName))) {
             while (scanner.hasNextLine()) {
@@ -171,7 +225,7 @@ public class LoginController {
         registrationStage.show();
     }
 
-    private class User {
+    static class User {
 
         private String username;
         private String password;

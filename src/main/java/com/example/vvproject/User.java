@@ -16,13 +16,13 @@ public class User {
     public User(String username, String password, String group) {
         this.username = username;
         this.password = password;
-        this.group = group;
+        this.group = String.valueOf(group);
     }
 
     public static User getUser(String username, String password) {
         List<User> users = getUsersFromCsv();
         for (User user : users) {
-            if (user.getName().equals(username) && user.getPassword().equals(password)) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return user;
             }
         }
@@ -49,7 +49,7 @@ public class User {
 
     public static void addUserToCsv(User user) {
         try (FileWriter csvWriter = new FileWriter("users.csv", true)) {
-            csvWriter.append(user.getName());
+            csvWriter.append(user.getUsername());
             csvWriter.append(",");
             csvWriter.append(user.getPassword());
             csvWriter.append(",");
@@ -60,9 +60,35 @@ public class User {
             e.printStackTrace();
         }
     }
+    public static void updateUserInCsv(User user) {
+        List<User> users = getUsersFromCsv();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(user.getUsername())) {
+                users.set(i, user);
+                break;
+            }
+        }
+        saveUsersToCsv(users);
+    }
+
+    public static void saveUsersToCsv(List<User> users) {
+        try (FileWriter csvWriter = new FileWriter("users.csv")) {
+            for (User user : users) {
+                csvWriter.append(user.getUsername());
+                csvWriter.append(",");
+                csvWriter.append(user.getPassword());
+                csvWriter.append(",");
+                csvWriter.append(user.getGroup());
+                csvWriter.append("\n");
+            }
+            csvWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // getterek és setterek
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
@@ -85,4 +111,6 @@ public class User {
     public void setGroup(String group) {
         this.group = group;
     }
+
+
 }

@@ -4,9 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.example.vvproject.LoginController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -45,7 +44,7 @@ public class RegistrationController {
 
             if (name.isEmpty() || password.isEmpty() || group.isEmpty()) {
                 // Ha valamelyik mező üres, akkor hibaüzenet jelenik meg
-                LoginController.showAlert("Hiányzó adatok", "Kérlek töltsd ki az összes mezőt!");
+                LoginController.showAlert(Alert.AlertType.INFORMATION, "Felhasználó törlése", "Hiányzó adatok", "Kérlek töltsd ki az összes mezőt!");
                 return;
             }
 
@@ -54,7 +53,7 @@ public class RegistrationController {
                 writer.write(String.format("%s,%s,%s\n", name, password, group));
                 writer.flush();
             } catch (IOException ex) {
-                LoginController.showAlert("Hiba", "Hiba történt az adatok mentése közben.");
+                LoginController.showAlert(Alert.AlertType.INFORMATION, "Felhasználó törlése", "Hiba", "Hiba történt az adatok mentése közben.");
                 ex.printStackTrace();
             }
 
@@ -76,7 +75,7 @@ public class RegistrationController {
 
         if (name.isEmpty() || password.isEmpty() || group.isEmpty()) {
             // Ha valamelyik mező üres, akkor hibaüzenet jelenik meg
-            LoginController.showAlert("Hiányzó adatok", "Kérlek töltsd ki az összes mezőt!");
+            LoginController.showAlert(Alert.AlertType.INFORMATION, "Felhasználó törlése", "Hiányzó adatok", "Kérlek töltsd ki az összes mezőt!");
             return;
         }
 
@@ -85,12 +84,12 @@ public class RegistrationController {
             writer.write(String.format("%s,%s,%s\n", name, password, group));
             writer.flush();
         } catch (IOException ex) {
-            LoginController.showAlert("Hiba", "Hiba történt az adatok mentése közben.");
+            LoginController.showAlert(Alert.AlertType.INFORMATION, "Felhasználó törlése", "Hiba", "Hiba történt az adatok mentése közben.");
             ex.printStackTrace();
             return;
         }
 
-        LoginController.showAlert("Sikeres regisztráció", "A regisztráció sikeresen megtörtént!");
+        LoginController.showAlert(Alert.AlertType.INFORMATION, "Felhasználó törlése", "Sikeres regisztráció", "A regisztráció sikeresen megtörtént!");
 
         // Visszatérünk a login oldalra
         showLogin();
