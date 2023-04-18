@@ -120,7 +120,6 @@ public class LoginController {
     }
 
 
-
     public void addUser(String username, String password, String group) {
         User user = new User(username, password, group);
         List<User> users = readUsersFromFile();
@@ -159,6 +158,7 @@ public class LoginController {
 
 
     private RegistrationController registrationController;
+
     @FXML
     private void handleRegistration(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/vvproject/registration.fxml"));
@@ -207,4 +207,31 @@ public class LoginController {
             this.group = group;
         }
     }
+    @FXML
+    private void handleLogin(ActionEvent event) throws IOException {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if (validateLogin(username, password)) { //ellenőrizze a felhasználói adatokat
+            // Belépteti a felhasználót, és megjeleníti a fő alkalmazásablakot
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Parent root = loader.load();
+
+            MainController mainController = loader.getController();
+            mainController.setLoginController(this);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            // Hibaüzenet jelenik meg, ha a felhasználónév vagy a jelszó helytelen
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid username or password!");
+            alert.showAndWait();
+        }
+    }
+
 }
