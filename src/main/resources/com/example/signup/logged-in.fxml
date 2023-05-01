@@ -10,21 +10,26 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="1058.0">
          <children>
-            <Button fx:id="Button_Logout" alignment="CENTER" contentDisplay="CENTER" layoutX="226.0" layoutY="293.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Kijelentkezés" textFill="WHITE">
+            <Button fx:id="Button_Logout" alignment="CENTER" contentDisplay="CENTER" layoutX="417.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Kijelentkezés" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>
             </Button>
-            <Label fx:id="Label_Welcome" alignment="CENTER" layoutX="185.0" layoutY="162.0" prefHeight="28.0" prefWidth="232.0" text="Üdv!">
+            <Label fx:id="Label_Welcome" alignment="CENTER" layoutX="178.0" layoutY="70.0" prefHeight="28.0" prefWidth="232.0" text="Üdv!">
                <font>
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="Label_Status" alignment="CENTER" layoutY="211.0" prefHeight="28.0" prefWidth="600.0" text="Sikeresen beléptél, most merre tovább?">
+            <Label fx:id="Label_Status" alignment="CENTER" layoutY="115.0" prefHeight="28.0" prefWidth="600.0" text="Sikeresen beléptél, most merre tovább?">
                <font>
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="Button_myprofile" alignment="CENTER" contentDisplay="CENTER" layoutX="249.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Profilom" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

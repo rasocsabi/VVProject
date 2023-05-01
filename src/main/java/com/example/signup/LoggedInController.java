@@ -12,6 +12,15 @@ import java.util.ResourceBundle;
 
 public class LoggedInController implements Initializable{
 
+    public static String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(String loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    private static String loggedInUser;
     @FXML
     private Button Button_Logout;
 
@@ -21,6 +30,10 @@ public class LoggedInController implements Initializable{
     @FXML
     private Label Label_Status;
 
+    @FXML
+    private Button Button_myprofile;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Button_Logout.setOnAction(new EventHandler<ActionEvent>() {
@@ -29,11 +42,20 @@ public class LoggedInController implements Initializable{
                 DatabaseUtils.changeScene(event, "log-in.fxml", "Log in!", null, null);
             } 
         });
+        Button_myprofile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DatabaseUtils.changeScene(event, "myprofile.fxml", "My Profile!", null, null);
+            }
+        });
     }
 
     public void setStatusInformation(String username, String status){
+        loggedInUser = username;
         Label_Welcome.setText("Üdv "+username+"!");
         Label_Status.setText("Sikeresen beléptél, most merre tovább?");
+
     }
+
     
 }

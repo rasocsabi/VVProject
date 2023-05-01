@@ -43,7 +43,7 @@
             </Label>
             <TextField fx:id="TextField_Username" layoutX="461.0" layoutY="209.0" prefHeight="26.0" prefWidth="94.0" style="-fx-background-color: Grey;">
                <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
+                  <Font name="Georgia" size="18.0" />
                </font>
             </TextField>
             <Label layoutX="479.0" layoutY="165.0" text="Login">
@@ -53,7 +53,7 @@
             </Label>
             <TextField fx:id="TextField_Password" layoutX="461.0" layoutY="247.0" prefHeight="26.0" prefWidth="94.0" style="-fx-background-color: Gray;">
                <font>
-                  <Font name="Arial Rounded MT Bold" size="18.0" />
+                  <Font name="Georgia" size="18.0" />
                </font>
             </TextField>
             <Button id="button-34" fx:id="Button_LogIn" alignment="CENTER" layoutX="461.0" layoutY="289.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="94.0" style="-fx-cursor: hand; -fx-background-color: Grey;" styleClass="button-34" text="Login" textAlignment="RIGHT" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
@@ -66,7 +66,7 @@
             </Button>
             <Button fx:id="Button_SignUp" layoutX="456.0" layoutY="341.0" mnemonicParsing="false" style="-fx-cursor: hand; -fx-background-color: trasparent;" text="Regisztrálj ITT!" underline="true">
                <font>
-                  <Font name="Arial Rounded MT Bold" size="14.0" />
+                  <Font name="Georgia" size="15.0" />
                </font>
             </Button>
          </children>
