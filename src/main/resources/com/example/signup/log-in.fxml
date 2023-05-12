@@ -64,7 +64,7 @@
                   <Glow />
                </effect>
             </Button>
-            <Button fx:id="Button_SignUp" layoutX="456.0" layoutY="341.0" mnemonicParsing="false" style="-fx-cursor: hand; -fx-background-color: trasparent;" text="Regisztrálj ITT!" underline="true">
+            <Button fx:id="Button_SignUp" layoutX="456.0" layoutY="341.0" mnemonicParsing="false" style="-fx-cursor: hand;" text="Regisztrálj ITT!" underline="true">
                <font>
                   <Font name="Georgia" size="15.0" />
                </font>

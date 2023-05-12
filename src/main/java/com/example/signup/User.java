@@ -2,18 +2,33 @@ package com.example.signup;
 
 class User {
     private final String username;
-    private final String role;
+    private final String groupName;
 
-    public User(String username, String role) {
-        this.username = username;
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    private String role;
+
+
+    public User(String username, String groupName) {
+        this.username = username;
+        this.groupName = groupName;
+
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getRole() {
-        return role;
+    public String getGroupName() {
+        return groupName;
     }
+
+
+
 }

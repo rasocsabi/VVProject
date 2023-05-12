@@ -1,5 +1,7 @@
 package com.example.signup;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -46,6 +48,7 @@ public class AdminPanelController {
         loadUserGroups();
         loadUsers();
         Label_Name.setText(username);
+
     }
 
     public AdminPanelController() {
@@ -85,23 +88,55 @@ public class AdminPanelController {
 
     private void loadUsers() throws SQLException {
         columnUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-        columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+      //  columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
 
-        String query = "SELECT * FROM users";
+        String query = "SELECT u.username, g.groupname " +
+                "FROM users u " +
+                "LEFT JOIN groupuser ug ON u.id = ug.userid " +
+                "LEFT JOIN groups g ON ug.groupid = g.id";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
+        ObservableList<User> userList = FXCollections.observableArrayList();
+
         while (resultSet.next()) {
             String username = resultSet.getString("username");
-            String role = resultSet.getInt("role") > 2 ? "Admin" : "User";
-            User user = new User(username, role);
-            tableViewUsers.getItems().add(user);
+            String groupName = resultSet.getString("groupname");
+
+            User user = new User(username, groupName);
+            userList.add(user);
         }
+
+        tableViewUsers.setItems(userList);
     }
 
     @FXML
     private void handleAddUserToGroup() {
-        // Kód a felhasználó hozzáadásához a csoportban
+        User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem(); // Kiválasztott felhasználó lekérése a táblából
+        String selectedGroup = groupNameField.getText(); // Kiválasztott csoport lekérése a mezőből
+
+        if (selectedUser != null && selectedGroup != null) {
+            try {
+                // Kód a felhasználó hozzáadásához a csoportban
+                String query = "INSERT INTO groupuser (userid,groupid ) VALUES (?, ?)";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, selectedUser.getUsername());
+                statement.setString(2, selectedGroup);
+                statement.executeUpdate();
+
+                // Sikeres hozzáadás üzenet megjelenítése vagy egyéb teendők
+
+            } catch (SQLException e) {
+
+                // Hiba kezelése
+                showAlert("Hiba", "Csoporhoz hozzáadás sikerteln", "Hiba történt a csoporthoz adás közben.");
+                e.printStackTrace();
+            }
+        } else {
+
+
+            // Felhasználó vagy csoport nincs kiválasztva, kezelje le a hibát vagy adjon visszajelzést a felhasználónak
+        }
     }
 
     @FXML
