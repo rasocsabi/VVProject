@@ -25,7 +25,12 @@
                   <Font name="Arial Rounded MT Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="Button_myprofile" alignment="CENTER" contentDisplay="CENTER" layoutX="249.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Profilom" textFill="WHITE">
+            <Button fx:id="Button_myprofile" alignment="CENTER" contentDisplay="CENTER" layoutX="219.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="My Profile" textFill="WHITE">
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="Button_mygroups" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Groups" textFill="WHITE">
                <font>
                   <Font name="Calibri Bold" size="18.0" />
                </font>

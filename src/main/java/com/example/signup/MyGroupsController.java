@@ -1,5 +1,6 @@
 package com.example.signup;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -26,12 +27,17 @@ public class MyGroupsController {
 
     public void initialize() throws SQLException {
         // A userId közvetlen hozzáférése az osztályszintű változóhoz
+
         String username = LoggedInController.getLoggedInUser();
         userId = LoggedInController.getUserIdFromDatabase(username);
         loadUserGroups();
         Label_Name.setText(username);
     }
 
+    @FXML
+    private void handleBackButton(ActionEvent event) {
+        DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
+    }
     public MyGroupsController() {
         // Inicializálás, adatbázis kapcsolat létrehozása
         try {
@@ -73,6 +79,33 @@ public class MyGroupsController {
                         String groupLeader = resultSet.getString("username");
                         userGroups.add(groupName + " (Group Leader: " + groupLeader + ")");
                     }
+                    listViewMyGroups.setOnMouseClicked(event -> {
+                        String selectedGroup = listViewMyGroups.getSelectionModel().getSelectedItem();
+                        if (selectedGroup != null) {
+                            // Csoport nevének kinyerése a kiválasztott elemből
+                            String groupName = selectedGroup.split(" ")[0];
+
+                            // Emberek kilistázása a csoportból
+                            try {
+                                List<String> groupMembers = getGroupMembers(groupName);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            // A csoport tagjainak listájának megjelenítése egy másik ListView-ban
+                            // Például groupMembersListView.setItems(FXCollections.observableArrayList(groupMembers));
+                            // Itt hajtsd végre a megfelelő megjelenítési műveleteket
+
+                            // Csoportvezető kinyerése és megjelenítése
+                            try {
+                                String groupLeader = getGroupLeader(groupName);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            // Például groupLeaderLabel.setText("Group Leader: " + groupLeader);
+                            // Itt hajtsd végre a megfelelő megjelenítési műveleteket
+                        }
+                    });
                 }
             }
         } catch (SQLException e) {
@@ -82,5 +115,36 @@ public class MyGroupsController {
         // Listaelemek hozzáadása a ListView-hoz
         listViewMyGroups.getItems().addAll(userGroups);
         listViewMyGroups.setCellFactory(TextFieldListCell.forListView());
+    }
+    private List<String> getGroupMembers(String groupName) throws SQLException {
+        List<String> groupMembers = new ArrayList<>();
+        String query = "SELECT users.username " +
+                "FROM groupuser " +
+                "INNER JOIN users ON groupuser.userid = users.userid " +
+                "INNER JOIN groups ON groupuser.groupid = groups.groupid " +
+                "WHERE groups.groupname = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, groupName);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            String memberName = resultSet.getString("username");
+            groupMembers.add(memberName);
+        }
+        return groupMembers;
+    }
+
+    private String getGroupLeader(String groupName) throws SQLException {
+        String groupLeader = "";
+        String query = "SELECT users.username " +
+                "FROM groups " +
+                "INNER JOIN users ON groups.groupleaderid = users.userid " +
+                "WHERE groups.groupname = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, groupName);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            groupLeader = resultSet.getString("username");
+        }
+        return groupLeader;
     }
 }

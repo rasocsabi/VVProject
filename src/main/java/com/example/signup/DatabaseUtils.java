@@ -18,25 +18,32 @@ import javafx.stage.Stage;
 
 public class DatabaseUtils {
 
-    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username, String status){
+    public static void changeScene(ActionEvent event, String fxmlFile, String title, String username, String status) {
         Parent root = null;
-        if(username != null && status != null){
-            try{
+        if (username != null && status != null) {
+            try {
                 FXMLLoader loader = new FXMLLoader(DatabaseUtils.class.getResource(fxmlFile));
                 root = loader.load();
-                LoggedInController loggedInController = loader.getController();
-                loggedInController.setStatusInformation(username, status);
-            }catch(IOException e){
+                if (fxmlFile.equals("mygroups.fxml")) {
+                    MyGroupsController myGroupsController = loader.getController();
+                    myGroupsController.initialize();
+                } else {
+                    LoggedInController loggedInController = loader.getController();
+                    loggedInController.setStatusInformation(username, status);
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        }else{
-            try{
+        } else {
+            try {
                 root = FXMLLoader.load(DatabaseUtils.class.getResource(fxmlFile));
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(new Scene(root, 600, 400));
         stage.show();

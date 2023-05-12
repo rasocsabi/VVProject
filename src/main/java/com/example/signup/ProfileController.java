@@ -50,6 +50,10 @@ public class ProfileController implements Initializable {
     @FXML
     private Button Button_DeleteSkill;
 
+    @FXML
+    private void handleBackButton(ActionEvent event) {
+        DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
