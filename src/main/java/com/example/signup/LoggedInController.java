@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoggedInController implements Initializable{
@@ -64,6 +65,23 @@ public class LoggedInController implements Initializable{
         loggedInUser = username;
         Label_Welcome.setText("Üdv "+username+"!");
         Label_Status.setText("Sikeresen beléptél, most merre tovább?");
+
+    }
+    static int getUserIdFromDatabase(String username) {
+
+        int userId = 0;
+         try {
+             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("SELECT id FROM users WHERE username = ?");
+             statement.setString(1, username);
+           ResultSet resultSet = statement.executeQuery();
+           if (resultSet.next()) {
+               userId = resultSet.getInt("id");
+           }
+         } catch (SQLException e) {
+            e.printStackTrace();
+         }
+        return userId;
 
     }
 

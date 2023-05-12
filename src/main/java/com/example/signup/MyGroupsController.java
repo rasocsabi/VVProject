@@ -26,9 +26,10 @@ public class MyGroupsController {
 
     public void initialize() throws SQLException {
         // A userId közvetlen hozzáférése az osztályszintű változóhoz
-        userId = LoggedInController.userId;
+        String username = LoggedInController.getLoggedInUser();
+        userId = LoggedInController.getUserIdFromDatabase(username);
         loadUserGroups();
-        Label_Name.setText(LoggedInController.getLoggedInUser());
+        Label_Name.setText(username);
     }
 
     public MyGroupsController() {
@@ -40,10 +41,6 @@ public class MyGroupsController {
         }
     }
 
-    public void setUserId(String username) throws SQLException {
-        // Nem szükséges a this.username beállítása
-        loadUserGroups();
-    }
 
     private void loadUserGroups() throws SQLException {
         List<String> userGroups = new ArrayList<>();
