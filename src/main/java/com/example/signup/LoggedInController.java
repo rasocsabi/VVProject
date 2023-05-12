@@ -11,16 +11,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoggedInController implements Initializable{
-
+    public static int userId;
+    private static String loggedInUser;
     public static String getLoggedInUser() {
         return loggedInUser;
     }
-
-    public void setLoggedInUser(String loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    public static void setLoggedInUser(String loggedInUser) {
+        LoggedInController.loggedInUser = loggedInUser;
     }
 
-    private static String loggedInUser;
+
+
     @FXML
     private Button Button_Logout;
 
@@ -59,6 +60,7 @@ public class LoggedInController implements Initializable{
     }
 
     public void setStatusInformation(String username, String status){
+
         loggedInUser = username;
         Label_Welcome.setText("Üdv "+username+"!");
         Label_Status.setText("Sikeresen beléptél, most merre tovább?");

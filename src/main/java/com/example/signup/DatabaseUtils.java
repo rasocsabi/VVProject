@@ -106,7 +106,7 @@ public class DatabaseUtils {
         ResultSet resultSet = null;
         try{
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-            preparedStatement = connection.prepareStatement("SELECT password, status FROM users WHERE username = ?");
+            preparedStatement = connection.prepareStatement("SELECT id,password, status, role FROM users WHERE username = ?");
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
             if(!resultSet.next()){
@@ -118,6 +118,7 @@ public class DatabaseUtils {
                 String retrievedPassword = resultSet.getString("password");
                 String retrievedStatus = resultSet.getString("status");
                 if(retrievedPassword.equals(password)){
+                    LoggedInController.setLoggedInUser(String.valueOf(resultSet.getInt("id")));
                     changeScene(event, "logged-in.fxml", "Welcome", username, retrievedStatus);
                 } else {
                     System.out.println("Password is incorrect!");
