@@ -36,6 +36,8 @@ public class LoggedInController implements Initializable{
     private Button Button_myprofile;
     @FXML
     private Button Button_mygroups;
+    @FXML
+    private Button Button_adminpanel;
 
 
     @Override
@@ -58,6 +60,13 @@ public class LoggedInController implements Initializable{
                 DatabaseUtils.changeScene(event, "mygroups.fxml", "My Groups!", null, null);
             }
         });
+        Button_adminpanel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DatabaseUtils.changeScene(event, "adminpanel.fxml", "Admin Panel!", null, null);
+            }
+        });
+
     }
 
     public void setStatusInformation(String username, String status){

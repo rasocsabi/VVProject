@@ -160,5 +160,16 @@ public class DatabaseUtils {
             }
         }
     }
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/vvdata";
+    private static final String USERNAME = "vvapp";
+    private static final String PASSWORD = "vvapp123";
 
+    public static Connection getConnection() throws SQLException {
+        try {
+            return DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Failed to establish database connection.");
+        }
+    }
 }

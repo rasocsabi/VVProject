@@ -6,4 +6,5 @@ module com.example.signup {
 
     opens com.example.signup to javafx.fxml;
     exports com.example.signup;
+
 }
