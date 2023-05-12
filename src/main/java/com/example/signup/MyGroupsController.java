@@ -1,5 +1,6 @@
 package com.example.signup;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,7 +17,13 @@ import java.util.List;
 
 public class MyGroupsController {
     @FXML
+    public Label groupLeaderLabel;
+   @FXML
+   public ListView groupMembersListView;
+    @FXML
     private ListView<String> listViewMyGroups;
+
+
 
     @FXML
     private Label Label_Name;
@@ -86,23 +93,25 @@ public class MyGroupsController {
                             String groupName = selectedGroup.split(" ")[0];
 
                             // Emberek kilistázása a csoportból
+                            List<String> groupMembers;
                             try {
-                                List<String> groupMembers = getGroupMembers(groupName);
+                                groupMembers = getGroupMembers(groupName);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
 
                             // A csoport tagjainak listájának megjelenítése egy másik ListView-ban
-                            // Például groupMembersListView.setItems(FXCollections.observableArrayList(groupMembers));
-                            // Itt hajtsd végre a megfelelő megjelenítési műveleteket
+                            groupMembersListView.setItems(FXCollections.observableArrayList(groupMembers));
+
 
                             // Csoportvezető kinyerése és megjelenítése
+                            String groupLeader;
                             try {
-                                String groupLeader = getGroupLeader(groupName);
+                                groupLeader = getGroupLeader(groupName);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
-                            // Például groupLeaderLabel.setText("Group Leader: " + groupLeader);
+                            groupLeaderLabel.setText("Group Leader: " + groupLeader);
                             // Itt hajtsd végre a megfelelő megjelenítési műveleteket
                         }
                     });
@@ -120,8 +129,8 @@ public class MyGroupsController {
         List<String> groupMembers = new ArrayList<>();
         String query = "SELECT users.username " +
                 "FROM groupuser " +
-                "INNER JOIN users ON groupuser.userid = users.userid " +
-                "INNER JOIN groups ON groupuser.groupid = groups.groupid " +
+                "INNER JOIN users ON groupuser.userid = users.id " +
+                "INNER JOIN groups ON groupuser.groupid = groups.id " +
                 "WHERE groups.groupname = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, groupName);
@@ -137,7 +146,7 @@ public class MyGroupsController {
         String groupLeader = "";
         String query = "SELECT users.username " +
                 "FROM groups " +
-                "INNER JOIN users ON groups.groupleaderid = users.userid " +
+                "INNER JOIN users ON groups.groupleaderid = users.id " +
                 "WHERE groups.groupname = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, groupName);
