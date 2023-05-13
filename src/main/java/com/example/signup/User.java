@@ -1,8 +1,18 @@
 package com.example.signup;
 
 class User {
-    private final String username;
-    private final String groupName;
+    private  String username;
+    private  String groupName;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
 
     public String getRole() {
         return role;
