@@ -110,31 +110,40 @@ public class AdminPanelController {
     @FXML
     private void handleAddUserToGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
-        String selectedGroup = (String) listViewUserGroups.getSelectionModel().getSelectedItem();
+        String selectedGroup = listViewUserGroups.getSelectionModel().getSelectedItem();
 
-      
         if (selectedUser != null) {
-            LOGGER.info("Selected user ID: " + selectedUser.getId());
-        }
-        if (selectedUser != null && selectedGroup != null) {
             try {
-                String query = "SELECT id FROM groups WHERE groupname = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, selectedGroup);
-                ResultSet resultSet = statement.executeQuery();
+                // Keresés az id alapján a users táblában
+                String userIdQuery = "SELECT id FROM users WHERE username = ?";
+                PreparedStatement userIdStatement = connection.prepareStatement(userIdQuery);
+                userIdStatement.setString(1, selectedUser.getUsername());
+                ResultSet userIdResultSet = userIdStatement.executeQuery();
 
-                if (resultSet.next()) {
-                    int groupId = resultSet.getInt("id");
+                if (userIdResultSet.next()) {
+                    int userId = userIdResultSet.getInt("id");
 
-                    String insertQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
-                    PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-                    insertStatement.setInt(1, selectedUser.getId());
-                    insertStatement.setInt(2, groupId);
-                    insertStatement.executeUpdate();
+                    // Csoport hozzáadása a groupuser táblához
+                    String groupIdQuery = "SELECT id FROM groups WHERE groupname = ?";
+                    PreparedStatement groupIdStatement = connection.prepareStatement(groupIdQuery);
+                    groupIdStatement.setString(1, selectedGroup);
+                    ResultSet groupIdResultSet = groupIdStatement.executeQuery();
 
-                    showAlert("Success", "User Added to Group", "User successfully added to the group.");
+                    if (groupIdResultSet.next()) {
+                        int groupId = groupIdResultSet.getInt("id");
+
+                        String insertQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
+                        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                        insertStatement.setInt(1, userId);
+                        insertStatement.setInt(2, groupId);
+                        insertStatement.executeUpdate();
+
+                        showAlert("Success", "User Added to Group", "User successfully added to the group.");
+                    } else {
+                        showWarningAlert("Invalid Group", "The selected group is invalid.");
+                    }
                 } else {
-                    showWarningAlert("Invalid Group", "The selected group is invalid.");
+                    showWarningAlert("User Not Found", "The selected user does not exist.");
                 }
             } catch (SQLException e) {
                 showAlert("Error", "Failed to Add User to Group", "An error occurred while adding the user to the group.");
@@ -148,24 +157,48 @@ public class AdminPanelController {
     @FXML
     private void handleRemoveUserFromGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
-        String selectedGroup = groupNameField.getText();
+        String selectedGroup = listViewUserGroups.getSelectionModel().getSelectedItem();
 
-        if (selectedUser != null) {
+        if (selectedUser != null && selectedGroup != null) {
             try {
-                String query = "DELETE FROM groupuser WHERE userid = ? AND groupid = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setInt(1, selectedUser.getId());
-                statement.setString(2, selectedGroup);
-                statement.executeUpdate();
+                // Felhasználó id-jának lekérdezése
+                String userIdQuery = "SELECT id FROM users WHERE username = ?";
+                PreparedStatement userIdStatement = connection.prepareStatement(userIdQuery);
+                userIdStatement.setString(1, selectedUser.getUsername());
+                ResultSet userIdResultSet = userIdStatement.executeQuery();
 
-                showAlert("Success", "User Removed from Group", "User successfully removed from the group.");
+                if (userIdResultSet.next()) {
+                    int userId = userIdResultSet.getInt("id");
 
+                    // Csoport id-jának lekérdezése
+                    String groupIdQuery = "SELECT id FROM groups WHERE groupname = ?";
+                    PreparedStatement groupIdStatement = connection.prepareStatement(groupIdQuery);
+                    groupIdStatement.setString(1, selectedGroup);
+                    ResultSet groupIdResultSet = groupIdStatement.executeQuery();
+
+                    if (groupIdResultSet.next()) {
+                        int groupId = groupIdResultSet.getInt("id");
+
+                        // Felhasználó eltávolítása a groupuser táblából
+                        String deleteQuery = "DELETE FROM groupuser WHERE userid = ? AND groupid = ?";
+                        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+                        deleteStatement.setInt(1, userId);
+                        deleteStatement.setInt(2, groupId);
+                        deleteStatement.executeUpdate();
+
+                        showAlert("Success", "User Removed from Group", "User successfully removed from the group.");
+                    } else {
+                        showWarningAlert("Invalid Group", "The selected group is invalid.");
+                    }
+                } else {
+                    showWarningAlert("User Not Found", "The selected user does not exist.");
+                }
             } catch (SQLException e) {
                 showAlert("Error", "Failed to Remove User from Group", "An error occurred while removing the user from the group.");
                 e.printStackTrace();
             }
         } else {
-            showWarningAlert("No User Selected", "Please select a user from the table.");
+            showWarningAlert("Invalid Selection", "Please select a user and a group.");
         }
     }
 
