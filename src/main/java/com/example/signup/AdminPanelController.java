@@ -62,9 +62,9 @@ public class AdminPanelController {
             userGroups.clear(); // Előző csoportok törlése
 
             // Felhasználó csoportjainak betöltése adatbázisból
-            String query = "SELECT groupname FROM groups WHERE id IN (SELECT groupid FROM groupuser WHERE userid IN (SELECT id FROM users WHERE username = ?))";
+            String query = "SELECT g.groupname FROM groups g JOIN groupuser gu ON g.id = gu.groupid JOIN users u ON gu.userid = u.id WHERE u.username = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, user.getId());
+            statement.setString(1, user.getUsername());
             ResultSet resultSet = statement.executeQuery();
 
             // Csoportok beolvasása az eredményhalmazból és hozzáadása az ObservableList-hez
