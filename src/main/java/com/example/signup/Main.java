@@ -16,6 +16,7 @@ public class Main extends Application {
         primaryStage.setTitle("Log in!");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+
     }
 
     public static void main(String[] args){

@@ -67,7 +67,12 @@ public class AdminPanelController {
             e.printStackTrace();
         }
     }
-//"SELECT groupname FROM groups WHERE id IN (SELECT groupid FROM groupuser WHERE userid = (SELECT id FROM users WHERE username = ?))
+
+    @FXML
+    private void handleBackButton(ActionEvent event) {
+        DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
+    }
+
 
     private void loadUserGroups(User user) {
         try {

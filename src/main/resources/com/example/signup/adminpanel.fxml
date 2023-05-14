@@ -34,6 +34,12 @@
             </font>
         </Button>
 
+        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
+            <font>
+                <Font name="Calibri Bold" size="18.0" />
+            </font>
+        </Button>
+
         <TableView fx:id="tableViewUsers" layoutX="38.0" layoutY="80.0" prefHeight="250.0" prefWidth="198.0">
             <columns>
                 <TableColumn fx:id="columnUsername" prefWidth="200.0" text="username" />
