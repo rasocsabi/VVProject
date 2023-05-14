@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signup.UserProfileController">
+    <Label text="User Profile" />
+    <Label fx:id="nameLabel" />
+    <Label fx:id="groupLabel" />
+    <ListView fx:id="skillsListView" />
+
+    <Button text="Edit Name" onAction="#handleEditNameButton" />
+    <Button text="Edit Group" onAction="#handleEditGroupButton" />
+    <Button text="Add Skill" onAction="#handleAddSkillButton" />
+    <Button text="Remove Skill" onAction="#handleRemoveSkillButton" />
+    <Button text="Set Skill Level" onAction="#handleAddSkillLevelButton" />
+    <Button text="Set Cost" onAction="#handleSetCostButton" />
+</VBox>

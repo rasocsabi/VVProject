@@ -28,7 +28,7 @@
             </font>
         </Button>
 
-        <Button fx:id="Button_UserProfile" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleUserProfile" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="User Profile" textFill="WHITE">
+        <Button fx:id="userProfileButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleUserProfile" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="User Profile" textFill="WHITE">
             <font>
                 <Font name="Calibri Bold" size="18.0" />
             </font>

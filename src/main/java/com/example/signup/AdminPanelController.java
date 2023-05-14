@@ -5,8 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -34,7 +39,8 @@ public class AdminPanelController {
 
     private static final Logger LOGGER = Logger.getLogger(AdminPanelController.class.getName());
 
-
+    @FXML
+    private Button userProfileButton;
     private ObservableList<String> userGroups = FXCollections.observableArrayList();
     public void initialize() throws SQLException {
         String username = LoggedInController.getLoggedInUser();
@@ -44,6 +50,12 @@ public class AdminPanelController {
         tableViewUsers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 loadUserGroups(newValue);
+            }
+        });
+        userProfileButton.setOnAction(event -> {
+            User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
+            if (selectedUser != null) {
+                openUserProfile(selectedUser);
             }
         });
     }
@@ -227,7 +239,28 @@ public class AdminPanelController {
     }
 
     private void openUserProfile(User user) {
-        // Implementáld a felhasználó profil oldalának megnyitásához szükséges logikát
-        // Például navigálj az adott felhasználó profil oldalára vagy jelenítsd meg a szükséges adatokat egy új ablakban/stage-ben.
+        // Tegyük fel, hogy van egy UserProfile.fxml fájl, amely a felhasználó profiljának megjelenítését definiálja
+        // és van egy UserProfileController osztály, amely vezérli a profil megjelenítését
+
+        try {
+            // Betöltjük a UserProfile.fxml fájlt
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("userprofil.fxml"));
+            Parent root = loader.load();
+
+            // Létrehozzuk a UserProfileController példányt és átadjuk a kiválasztott felhasználót
+            UserProfileController controller = loader.getController();
+            controller.setUser(user);
+
+            // Létrehozunk egy új ablakot (Stage)
+            Stage stage = new Stage();
+            stage.setTitle("User Profile");
+            stage.setScene(new Scene(root));
+
+            // Megjelenítjük az ablakot
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
     }
 }
