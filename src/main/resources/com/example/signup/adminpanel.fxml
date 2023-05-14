@@ -40,9 +40,8 @@
             </columns>
         </TableView>
 
-        <ListView fx:id="listViewUserGroups" layoutX="279.0" layoutY="80.0" prefHeight="250.0" prefWidth="150.0" />
+        <ListView fx:id="listViewUserGroups" layoutX="279.0" layoutY="80.0" prefHeight="250.0" prefWidth="150.0"/>
 
-        <ListView fx:id="listViewMyGroups" layoutX="442.0" layoutY="80.0" prefHeight="250.0" prefWidth="150.0" />
 
     </children>
 </AnchorPane>

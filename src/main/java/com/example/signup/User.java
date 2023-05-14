@@ -1,8 +1,17 @@
 package com.example.signup;
 
 class User {
-    private  String username;
-    private  String groupName;
+    private int id;
+    private String username;
+    private String groupName;
+    private String role;
+
+    public User(String username, String groupName) {
+        this.id = id;
+        this.username = username;
+        this.groupName = groupName;
+        this.role = role;
+    }
 
     public int getId() {
         return id;
@@ -10,25 +19,6 @@ class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    private int id;
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    private String role;
-
-
-    public User(String username, String groupName) {
-        this.username = username;
-        this.groupName = groupName;
-
     }
 
     public String getUsername() {
@@ -39,6 +29,7 @@ class User {
         return groupName;
     }
 
-
-
+    public String getRole() {
+        return role;
+    }
 }

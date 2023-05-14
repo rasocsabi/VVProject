@@ -6,26 +6,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
 public class AdminPanelController {
     @FXML
-    public ListView listViewUserGroups;
+    public ListView<String> listViewUserGroups;
     @FXML
     TextField groupNameField;
 
-    @FXML
-    private ListView<String> listViewMyGroups;
+
 
     @FXML
     private Label Label_Name;
 
-    @FXML
-    private Button Button_CreateGroup;
+
 
     @FXML
     private TableView<User> tableViewUsers;
@@ -36,11 +32,20 @@ public class AdminPanelController {
     private Connection connection;
     private int userId;
 
+    private static final Logger LOGGER = Logger.getLogger(AdminPanelController.class.getName());
+
+
+    private ObservableList<String> userGroups = FXCollections.observableArrayList();
     public void initialize() throws SQLException {
         String username = LoggedInController.getLoggedInUser();
         userId = LoggedInController.getUserIdFromDatabase(username);
         loadUsers();
         Label_Name.setText(username);
+        tableViewUsers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                loadUserGroups(newValue);
+            }
+        });
     }
 
     public AdminPanelController() {
@@ -50,18 +55,19 @@ public class AdminPanelController {
             e.printStackTrace();
         }
     }
+//"SELECT groupname FROM groups WHERE id IN (SELECT groupid FROM groupuser WHERE userid = (SELECT id FROM users WHERE username = ?))
 
     private void loadUserGroups(User user) {
         try {
+            userGroups.clear(); // Előző csoportok törlése
+
             // Felhasználó csoportjainak betöltése adatbázisból
-            String query = "SELECT groupname FROM groups WHERE id IN (SELECT groupid FROM groupuser WHERE userid = ?)";
+            String query = "SELECT groupname FROM groups WHERE id IN (SELECT groupid FROM groupuser WHERE userid IN (SELECT id FROM users WHERE username = ?))";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, user.getId());
             ResultSet resultSet = statement.executeQuery();
 
-            ObservableList<String> userGroups = FXCollections.observableArrayList();
-
-            // Csoportok beolvasása az eredményhalmazból
+            // Csoportok beolvasása az eredményhalmazból és hozzáadása az ObservableList-hez
             while (resultSet.next()) {
                 String groupName = resultSet.getString("groupname");
                 userGroups.add(groupName);
@@ -104,24 +110,38 @@ public class AdminPanelController {
     @FXML
     private void handleAddUserToGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
-        String selectedGroup = groupNameField.getText();
+        String selectedGroup = (String) listViewUserGroups.getSelectionModel().getSelectedItem();
 
-        if (selectedUser != null && !selectedGroup.isEmpty()) {
+      
+        if (selectedUser != null) {
+            LOGGER.info("Selected user ID: " + selectedUser.getId());
+        }
+        if (selectedUser != null && selectedGroup != null) {
             try {
-                String query = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
+                String query = "SELECT id FROM groups WHERE groupname = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setInt(1, selectedUser.getId());
-                statement.setString(2, selectedGroup);
-                statement.executeUpdate();
+                statement.setString(1, selectedGroup);
+                ResultSet resultSet = statement.executeQuery();
 
-                showAlert("Success", "User Added to Group", "User successfully added to the group.");
+                if (resultSet.next()) {
+                    int groupId = resultSet.getInt("id");
 
+                    String insertQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
+                    PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                    insertStatement.setInt(1, selectedUser.getId());
+                    insertStatement.setInt(2, groupId);
+                    insertStatement.executeUpdate();
+
+                    showAlert("Success", "User Added to Group", "User successfully added to the group.");
+                } else {
+                    showWarningAlert("Invalid Group", "The selected group is invalid.");
+                }
             } catch (SQLException e) {
                 showAlert("Error", "Failed to Add User to Group", "An error occurred while adding the user to the group.");
                 e.printStackTrace();
             }
         } else {
-            showWarningAlert("Invalid Selection", "Please select a user and enter a group name.");
+            showWarningAlert("Invalid Selection", "Please select a user and a group.");
         }
     }
 
@@ -150,7 +170,7 @@ public class AdminPanelController {
     }
 
     @FXML
-    void handleUserProfile(ActionEvent event) {
+    private void handleUserProfile(ActionEvent event) {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             loadUserGroups(selectedUser); // Csoportok betöltése a kiválasztott felhasználóhoz
