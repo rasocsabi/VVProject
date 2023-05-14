@@ -118,7 +118,7 @@ public class AdminPanelController {
             String username = resultSet.getString("username");
             String groupName = resultSet.getString("groupname");
 
-            User user = new User(username, groupName);
+            User user = new User(userId,username, groupName);
             userList.add(user);
         }
 

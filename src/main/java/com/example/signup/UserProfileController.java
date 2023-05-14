@@ -56,12 +56,10 @@ public class UserProfileController {
 
     private boolean isModified; // Módosítás történt-e
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
 
     public void setUser(User user) {
         this.user = user;
+        user.setId(user.getIdFromDatabase()); // Az id beállítása az adatbázisból
         updateProfile();
     }
 
@@ -80,8 +78,8 @@ public class UserProfileController {
                 updateGroupInDatabase(user);
                 updateSkillsInDatabase(user.getSkills());
                 // További adatbázis-műveletek végrehajtása szükség szerint
+                logger.log(Level.INFO, "User profile updated successfull22y." + user.getId());
 
-                logger.log(Level.INFO, "User profile updated successfully." + user.getId());
 
                 Stage stage = (Stage) insertButton.getScene().getWindow();
                 stage.close(); // Ablak bezárása
@@ -103,20 +101,36 @@ public class UserProfileController {
     }
 
     private void updateGroupInDatabase(User user) throws SQLException {
+        // Töröljük a felhasználó korábbi csoportjait
+        String deleteGroupQuery = "DELETE FROM groupuser WHERE userid = ?";
+        PreparedStatement deleteGroupStatement = connection.prepareStatement(deleteGroupQuery);
+        deleteGroupStatement.setInt(1, user.getId());
+        deleteGroupStatement.executeUpdate();
+
+        // Hozzáadjuk az új csoportokat
+        String insertGroupQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
+        PreparedStatement insertGroupStatement = connection.prepareStatement(insertGroupQuery);
+
+        for (String groupName : user.getGroups()) {
+            int groupId = getGroupId(groupName);
+            if (groupId != -1) {
+                insertGroupStatement.setInt(1, user.getId());
+                insertGroupStatement.setInt(2, groupId);
+                insertGroupStatement.executeUpdate();
+            }
+        }
+    }
+
+    private int getGroupId(String groupName) throws SQLException {
         String selectGroupIdQuery = "SELECT id FROM groups WHERE groupname = ?";
         PreparedStatement selectGroupIdStatement = connection.prepareStatement(selectGroupIdQuery);
-        selectGroupIdStatement.setString(1, user.getGroup(user.getId()));
+        selectGroupIdStatement.setString(1, groupName);
         ResultSet groupIdResultSet = selectGroupIdStatement.executeQuery();
 
         if (groupIdResultSet.next()) {
-            int groupId = groupIdResultSet.getInt("id");
-
-            String updateGroupQuery = "UPDATE groupuser SET groupid = ? WHERE userid = ?";
-            PreparedStatement updateGroupStatement = connection.prepareStatement(updateGroupQuery);
-            updateGroupStatement.setInt(1, groupId);
-            updateGroupStatement.setInt(2, user.getId());
-            updateGroupStatement.executeUpdate();
-            System.out.println("User group updated in database: UserID=" + user.getId() + ", GroupID=" + groupId);
+            return groupIdResultSet.getInt("id");
+        } else {
+            return -1; // Az adott névvel nem találtunk csoportot az adatbázisban
         }
     }
     private void updateSkillsInDatabase(ObservableList<String> skills) throws SQLException {
@@ -127,12 +141,13 @@ public class UserProfileController {
         deleteStatement.executeUpdate();
 
         // Beszúrjuk a frissített készségeket az adatbázisba
-        String insertQuery = "INSERT INTO skills (user_id,username, skill_name) VALUES (?, ?,?)";
+        String insertQuery = "INSERT INTO skills (user_id,username, skill_name,skill_level) VALUES (?, ?,?,?)";
         PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
         for (String skill : skills) {
             insertStatement.setInt(1, user.getId());
             insertStatement.setString(2, user.getUsername());
             insertStatement.setString(3, skill);
+            insertStatement.setInt(4, 1);
             insertStatement.executeUpdate();
         }
     }
@@ -154,9 +169,16 @@ public class UserProfileController {
         TextInputDialog dialog = new TextInputDialog(user.getGroupName());
         dialog.setTitle("Edit Group");
         dialog.setHeaderText(null);
-        dialog.setContentText("Enter new group:");
-        dialog.showAndWait().ifPresent(newGroup -> {
-            user.setGroup(newGroup);
+        dialog.setContentText("Enter new group(s), separated by commas:");
+
+        dialog.showAndWait().ifPresent(newGroups -> {
+            String[] groupNames = newGroups.split(",");
+            for (String groupName : groupNames) {
+                String trimmedGroupName = groupName.trim();
+                if (!trimmedGroupName.isEmpty()) {
+                    user.addGroup(trimmedGroupName);
+                }
+            }
             updateProfile();
         });
     }
@@ -191,7 +213,7 @@ public class UserProfileController {
             dialog.setHeaderText(null);
             dialog.setContentText("Enter skill level for " + selectedSkill + ":");
             dialog.showAndWait().ifPresent(skillLevel -> {
-                user.setSkillLevel(selectedSkill, skillLevel);
+                user.setSkillLevel(selectedSkill, Integer.parseInt(skillLevel));
                 updateProfile();
             });
         }
