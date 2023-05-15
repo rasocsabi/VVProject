@@ -39,6 +39,11 @@
                 <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
+        <Button fx:id="newprojectButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="56.0" mnemonicParsing="false" onAction="#handlenewprojectButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="New Project" textFill="WHITE">
+            <font>
+                <Font name="Calibri Bold" size="18.0" />
+            </font>
+        </Button>
 
         <TableView fx:id="tableViewUsers" layoutX="38.0" layoutY="80.0" prefHeight="250.0" prefWidth="198.0">
             <columns>

@@ -268,4 +268,8 @@ public class AdminPanelController {
             // Hiba kezelése
         }
     }
+
+    public void handlenewprojectButton(ActionEvent actionEvent) {
+        DatabaseUtils.changeScene(actionEvent, "projectcalculator.fxml", "New Project!", null, null);
+    }
 }
