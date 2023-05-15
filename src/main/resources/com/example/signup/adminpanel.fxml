@@ -44,7 +44,7 @@
                 <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
-
+        <Button text="EditRole" onAction="#handleEditRoleButton" />
         <TableView fx:id="tableViewUsers" layoutX="38.0" layoutY="80.0" prefHeight="250.0" prefWidth="198.0">
             <columns>
                 <TableColumn fx:id="columnUsername" prefWidth="200.0" text="username" />

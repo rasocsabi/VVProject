@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<GridPane fx:controller="com.example.signup.RoleController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+
+    <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <TextField fx:id="textFieldId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+    <Label text="Felhasználónév:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <TextField fx:id="textFieldUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="Role:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <TextField fx:id="textFieldRole" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Button text="Hozzáadás" GridPane.columnIndex="0" GridPane.rowIndex="3" onAction="#handleAddButton" />
+    <Button text="Törlés" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#handleDeleteButton" />
+
+    <TableView fx:id="tableViewRoles" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2">
+        <columns>
+            <TableColumn text="ID" fx:id="columnId" />
+            <TableColumn text="Felhasználónév" fx:id="columnUsername" />
+            <TableColumn text="Role" fx:id="columnRole" />
+        </columns>
+    </TableView>
+</GridPane>

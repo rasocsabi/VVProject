@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import static com.example.signup.RoleUtils.getUserRole;
 
 public class AdminPanelController {
     @FXML
@@ -318,5 +321,33 @@ public class AdminPanelController {
 
     public void handlenewprojectButton(ActionEvent actionEvent) {
         DatabaseUtils.changeScene(actionEvent, "projectcalculator.fxml", "New Project!", null, null);
+    }
+
+    @FXML
+    private void handleEditRoleButton(ActionEvent event) {
+        String userRole = getUserRole(LoggedInController.getLoggedInUser());
+
+        // Jogosultság ellenőrzése
+        if (userRole != null && userRole.equals("5")) {
+
+            try {
+                // Betöltjük a role.fxml fájlt
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("role.fxml"));
+                Parent root = loader.load();
+
+                // Létrehozzuk a Scene-t az új színpaddal
+                Scene scene = new Scene(root);
+
+                // Hozzáadjuk a Scene-t az aktuális Stage-hez (ablakhoz)
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            // Nincs jogosultság
+            System.out.println("Nincs jogosultságod a művelet végrehajtásához.");
+        }
     }
 }

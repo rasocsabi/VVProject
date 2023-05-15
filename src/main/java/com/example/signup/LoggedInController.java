@@ -11,6 +11,8 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+import static com.example.signup.RoleUtils.getUserRole;
+
 public class LoggedInController implements Initializable{
     public static int userId;
     private static String loggedInUser;
@@ -63,7 +65,15 @@ public class LoggedInController implements Initializable{
         Button_adminpanel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DatabaseUtils.changeScene(event, "adminpanel.fxml", "Admin Panel!", null, null);
+                String userRole = getUserRole(LoggedInController.getLoggedInUser());
+
+                // Jogosultság ellenőrzése
+                if (userRole != null && userRole.equals("5")) {
+                    DatabaseUtils.changeScene(event, "adminpanel.fxml", "Admin Panel!", null, null);
+                }else {
+                    DatabaseUtils.showAlert("Nincs jogosultságod az oldal megtekintéséhez!");
+                }
+
             }
         });
 

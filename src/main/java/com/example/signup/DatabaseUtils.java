@@ -172,4 +172,10 @@ public class DatabaseUtils {
             throw new SQLException("Failed to establish database connection.");
         }
     }
+
+    public static void showAlert(String s) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(s);
+        alert.show();
+    }
 }
