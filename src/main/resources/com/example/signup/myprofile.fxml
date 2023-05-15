@@ -13,52 +13,31 @@
     <children>
         <AnchorPane prefHeight="400.0" prefWidth="1058.0">
             <children>
-                <Label fx:id="Label_Name" alignment="CENTER" layoutX="5.0" layoutY="21.0" prefHeight="28.0" prefWidth="148.0" text="Név">
-                    <font>
-                        <Font name="Georgia" size="20.0" />
-                    </font>
-                </Label>
-                <VBox alignment="CENTER" layoutX="256.0" layoutY="117.0" prefHeight="239.0" prefWidth="329.0" spacing="10.0">
-                    <HBox spacing="10.0" />
+                <VBox alignment="CENTER_LEFT" layoutX="50.0" layoutY="50.0" spacing="10.0">
+                    <HBox prefHeight="292.0" prefWidth="445.0" spacing="10.0">
+                        <ListView fx:id="ListView_Skills" prefHeight="343.0" prefWidth="227.0" style="-fx-background-color: gray;" />
+                        <TextField fx:id="TextField_NewSkill" promptText="New Skill" />
+                        <Button fx:id="Button_AddSkill" prefHeight="17.0" prefWidth="30.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Add" textFill="WHITE" />
+                    </HBox>
                 </VBox>
-                <Button fx:id="Button_InsertToList" alignment="CENTER" contentDisplay="CENTER" layoutX="479.0" layoutY="78.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: Grey;" text="Add" textFill="WHITE">
+                <Button fx:id="Button_Back" alignment="CENTER" layoutX="415.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Back" textFill="WHITE">
                     <font>
                         <Font name="Calibri Bold" size="18.0" />
                     </font>
                 </Button>
-
-                <Button fx:id="Button_EditProfile" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Profil szerkesztése" textFill="WHITE">
-                    <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                    </font>
-                </Button>
-                <Button fx:id="Button_DeleteSkill" alignment="CENTER" contentDisplay="CENTER" layoutX="479.0" layoutY="123.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="71.0" style="-fx-background-color: Grey;" text="Delete" textFill="WHITE">
-                    <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                    </font>
-                </Button>
-                 <Label fx:id="Label_Skills" layoutX="-49.0" layoutY="104.0" prefHeight="26.0" prefWidth="234.0" text="Skill">
+                <Button layoutX="441.0" layoutY="157.0" onAction="#handleEditNameButton" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Edit My Name" textFill="WHITE" />
+                 <Label fx:id="Label_Name" layoutX="14.0" layoutY="13.0" prefWidth="100.0" text="Név">
                      <font>
-                         <Font name="Arial Rounded MT Bold" size="18.0" />
+                         <Font name="Georgia" size="20.0" />
                      </font>
                  </Label>
-                  <TextField fx:id="TextField_NewSkill" layoutX="264.0" layoutY="82.0" prefHeight="26.0" prefWidth="188.0" promptText="New Skill" />
-                 <ListView fx:id="ListView_Skills" layoutX="14.0" layoutY="82.0" prefHeight="200.0" prefWidth="234.0" style="-fx-background-color: gray;" />
-            <Label layoutX="38.0" layoutY="61.0" prefHeight="17.0" prefWidth="93.0" text="My Skills">
-               <font>
-                  <Font name="Georgia" size="12.0" />
-               </font></Label>
-                  <Button fx:id="Button_AddSkill" layoutX="375.0" layoutY="356.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="46.0" text="Add">
+                  <Label fx:id="Label_Skills" layoutX="130.0" layoutY="26.0" prefWidth="100.0" text="My Skills">
                       <font>
-                          <Font name="Arial Rounded MT Bold" size="12.0" />
+                          <Font name="Arial Rounded MT Bold" size="18.0" />
                       </font>
-                  </Button>
-                <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
-                    <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                    </font>
-                </Button>
-                <Button text="Edit My Name" onAction="#handleEditNameButton"/>
+                  </Label>
+                 <Button fx:id="Button_EditProfile" layoutX="441.0" layoutY="192.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Profil szerkesztése" textFill="WHITE" />
+                 <Button fx:id="Button_DeleteSkill" layoutX="520.0" layoutY="50.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Delete" textFill="WHITE" />
             </children>
         </AnchorPane>
     </children>

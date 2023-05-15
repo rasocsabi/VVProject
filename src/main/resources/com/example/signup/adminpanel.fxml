@@ -16,42 +16,45 @@
             </font>
         </Label>
 
-        <Button fx:id="Button_AddUserToGroup" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleAddUserToGroup" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Add User to Group" textFill="WHITE">
+        <Button fx:id="Button_AddUserToGroup" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleAddUserToGroup" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Add User to Group" textFill="WHITE">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Georgia" size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="Button_RemoveUserFromGroup" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleRemoveUserFromGroup" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Remove User from Group" textFill="WHITE">
+        <Button fx:id="Button_RemoveUserFromGroup" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleRemoveUserFromGroup" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Remove User from Group" textFill="WHITE">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Georgia" size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="userProfileButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleUserProfile" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="User Profile" textFill="WHITE">
+        <Button fx:id="userProfileButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleUserProfile" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="User Profile" textFill="WHITE">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Georgia" size="18.0" />
             </font>
         </Button>
 
-        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
+        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Back" textFill="WHITE">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Georgia" size="18.0" />
             </font>
         </Button>
-        <Button fx:id="newprojectButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="56.0" mnemonicParsing="false" onAction="#handlenewprojectButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="New Project" textFill="WHITE">
+        <Button fx:id="newprojectButton" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="56.0" mnemonicParsing="false" onAction="#handlenewprojectButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="New Project" textFill="WHITE">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Georgia" size="18.0" />
             </font>
         </Button>
-        <Button text="EditRole" onAction="#handleEditRoleButton" />
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="107.0" onAction="#handleEditRoleButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="EditRole" textFill="WHITE">
+         <font>
+            <Font name="Georgia" size="18.0" />
+         </font></Button>
         <TableView fx:id="tableViewUsers" layoutX="38.0" layoutY="80.0" prefHeight="250.0" prefWidth="198.0">
             <columns>
                 <TableColumn fx:id="columnUsername" prefWidth="200.0" text="username" />
             </columns>
         </TableView>
 
-        <ListView fx:id="listViewUserGroups" layoutX="279.0" layoutY="80.0" prefHeight="250.0" prefWidth="150.0"/>
+        <ListView fx:id="listViewUserGroups" layoutX="279.0" layoutY="80.0" prefHeight="250.0" prefWidth="150.0" />
 
 
     </children>

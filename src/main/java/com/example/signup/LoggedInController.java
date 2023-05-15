@@ -82,8 +82,8 @@ public class LoggedInController implements Initializable{
     public void setStatusInformation(String username, String status){
 
         loggedInUser = username;
-        Label_Welcome.setText("Üdv "+username+"!");
-        Label_Status.setText("Sikeresen beléptél, most merre tovább?");
+        Label_Welcome.setText("Hello"+username+"!");
+        Label_Status.setText("You have successfully entered, where to next?");
 
     }
     static int getUserIdFromDatabase(String username) {

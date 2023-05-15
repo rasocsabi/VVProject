@@ -31,14 +31,12 @@ public class SignUpController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-            ToggleGroup toggleGroup = new ToggleGroup();
-            RadioButton_Creator.setToggleGroup(toggleGroup);
-            RadioButton_Consumer.setToggleGroup(toggleGroup);
-            RadioButton_Creator.setSelected(true);
+
+
             Button_SignUp.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                String toggleName = ((RadioButton) toggleGroup.getSelectedToggle()).getText();
+                String toggleName = "1";
                 if(!TextField_Username.getText().trim().isEmpty() && !TextField_Password.getText().trim().isEmpty()){
                     DatabaseUtils.signUpUser(event, TextField_Username.getText(), TextField_Password.getText(), toggleName);
                 }else{

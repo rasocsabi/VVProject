@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 
 public class ProfileController implements Initializable {
 
+   @FXML
     public Button Button_InsertToList;
     @FXML
     public Button Button_Back;
@@ -99,12 +100,18 @@ public class ProfileController implements Initializable {
         // A Button_DeleteSkill onClick eseményének beállítása
         Button_DeleteSkill.setOnAction(this::handleDeleteSkillAction);
         // A Button_InsertToList onClick eseményének beállítása
-        Button_InsertToList.setOnAction(this::handleAddSkillAction);
+
         // A Button_EditProfile onClick eseményének beállítása
         Button_EditProfile.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // TODO: Megnyitni a profil szerkesztése ablakot
+                //nincs jogosultságod a megtekintéshez
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You don't have permission to view this page!");
+                alert.showAndWait();
+
             }
         });
     }

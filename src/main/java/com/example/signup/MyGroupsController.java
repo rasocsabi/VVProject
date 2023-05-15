@@ -19,7 +19,7 @@ public class MyGroupsController {
     @FXML
     public Label groupLeaderLabel;
    @FXML
-   public ListView groupMembersListView;
+   public ListView<Object> groupMembersListView;
     @FXML
     private ListView<String> listViewMyGroups;
 
@@ -57,65 +57,59 @@ public class MyGroupsController {
 
     private void loadUserGroups() throws SQLException {
         List<String> userGroups = new ArrayList<>();
-        String useridsql ="SELECT id FROM users WHERE username = ?";
+        String useridsql = "SELECT id FROM users WHERE username = ?";
         PreparedStatement useridstatement = connection.prepareStatement(useridsql);
         useridstatement.setString(1, LoggedInController.getLoggedInUser());
 
         try {
-            // Ellenőrizze, hogy a felhasználó admin vagy csoportvezető-e
-            PreparedStatement statement = connection.prepareStatement("SELECT role FROM users WHERE id = ?");
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int role = resultSet.getInt("role");
+            ResultSet userIdResult = useridstatement.executeQuery();
+            if (userIdResult.next()) {
+                int userId = userIdResult.getInt("id");
 
-                // Admin vagy csoportvezető
-                if (role == 3 || role == 2) {
-                    // Lekérdezze a felhasználó csoportjait
-                    String query = "SELECT groups.groupname, users.username " +
-                            "FROM groupuser " +
-                            "INNER JOIN groups ON groupuser.groupid = groups.id " +
-                            "INNER JOIN users ON groups.groupleaderid = users.id " +
-                            "WHERE groupuser.userid = ?";
-                    statement = connection.prepareStatement(query);
-                    statement.setInt(1, userId);
-                    resultSet = statement.executeQuery();
+                // Lekérdezze a felhasználó csoportjait
+                String query = "SELECT groups.groupname, users.username " +
+                        "FROM groupuser " +
+                        "INNER JOIN groups ON groupuser.groupid = groups.id " +
+                        "INNER JOIN users ON groups.groupleaderid = users.id " +
+                        "WHERE groupuser.userid = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setInt(1, userId);
+                ResultSet resultSet = statement.executeQuery();
 
-                    while (resultSet.next()) {
-                        String groupName = resultSet.getString("groupname");
-                        String groupLeader = resultSet.getString("username");
-                        userGroups.add(groupName + " (Group Leader: " + groupLeader + ")");
-                    }
-                    listViewMyGroups.setOnMouseClicked(event -> {
-                        String selectedGroup = listViewMyGroups.getSelectionModel().getSelectedItem();
-                        if (selectedGroup != null) {
-                            // Csoport nevének kinyerése a kiválasztott elemből
-                            String groupName = selectedGroup.split(" ")[0];
-
-                            // Emberek kilistázása a csoportból
-                            List<String> groupMembers;
-                            try {
-                                groupMembers = getGroupMembers(groupName);
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            // A csoport tagjainak listájának megjelenítése egy másik ListView-ban
-                            groupMembersListView.setItems(FXCollections.observableArrayList(groupMembers));
-
-
-                            // Csoportvezető kinyerése és megjelenítése
-                            String groupLeader;
-                            try {
-                                groupLeader = getGroupLeader(groupName);
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                            groupLeaderLabel.setText("Group Leader: " + groupLeader);
-                            // Itt hajtsd végre a megfelelő megjelenítési műveleteket
-                        }
-                    });
+                while (resultSet.next()) {
+                    String groupName = resultSet.getString("groupname");
+                    String groupLeader = resultSet.getString("username");
+                    userGroups.add(groupName + " (Group Leader: " + groupLeader + ")");
                 }
+
+                listViewMyGroups.setOnMouseClicked(event -> {
+                    String selectedGroup = listViewMyGroups.getSelectionModel().getSelectedItem();
+                    if (selectedGroup != null) {
+                        // Csoport nevének kinyerése a kiválasztott elemből
+                        String groupName = selectedGroup.split(" ")[0];
+
+                        // Emberek kilistázása a csoportból
+                        List<String> groupMembers;
+                        try {
+                            groupMembers = getGroupMembers(groupName);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        // A csoport tagjainak listájának megjelenítése egy másik ListView-ban
+                        groupMembersListView.setItems(FXCollections.observableArrayList(groupMembers));
+
+                        // Csoportvezető kinyerése és megjelenítése
+                        String groupLeader;
+                        try {
+                            groupLeader = getGroupLeader(groupName);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        groupLeaderLabel.setText("Group Leader: " + groupLeader);
+                        // Itt hajtsd végre a megfelelő megjelenítési műveleteket
+                    }
+                });
             }
         } catch (SQLException e) {
             e.printStackTrace();

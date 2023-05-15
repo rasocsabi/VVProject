@@ -3,19 +3,27 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="414.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signup.UserProfileController">
-    <Label text="User Profile" />
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="414.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signup.UserProfileController" spacing="10">
+    <Label text="User Profile">
+        <font>
+            <Font name="Georgia" size="20.0" />
+        </font>
+    </Label>
     <Label fx:id="nameLabel" />
     <Label fx:id="groupLabel" />
-    <ListView fx:id="skillsListView" prefHeight="147.0" prefWidth="797.0" />
-
-    <Button contentDisplay="BOTTOM" onAction="#handleEditNameButton" text="Edit Name" />
-    <Button onAction="#handleEditGroupButton" text="Edit Group" />
-    <Button onAction="#handleAddSkillButton" text="Add Skill" />
-    <Button onAction="#handleRemoveSkillButton" text="Remove Skill" />
-    <Button onAction="#handleAddSkillLevelButton" text="Set Skill Level" />
-    <Button onAction="#handleSetCostButton" text="Set Cost" />
-    <Button fx:id="insertButton" onAction="#handleInsertButton" text="Insert" />
+    <ListView fx:id="skillsListView" prefHeight="147.0" prefWidth="797.0" style="-fx-background-color: gray;" />
+    <HBox spacing="10">
+        <Button onAction="#handleEditNameButton" text="Edit Name" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button onAction="#handleEditGroupButton" text="Edit Group" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button onAction="#handleAddSkillButton" text="Add Skill" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button onAction="#handleRemoveSkillButton" text="Remove Skill" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button onAction="#handleAddSkillLevelButton" text="Set Skill Level" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button onAction="#handleSetCostButton" text="Set Cost" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+        <Button fx:id="insertButton" onAction="#handleInsertButton" text="Insert" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333); -fx-text-fill: white;" />
+    </HBox>
 </VBox>

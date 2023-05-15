@@ -17,7 +17,7 @@
                     </font>
                 </Label>
 
-                <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
+                <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #555555, #333333);" text="Back" textFill="WHITE">
                     <font>
                         <Font name="Calibri Bold" size="18.0" />
                     </font>
@@ -34,7 +34,7 @@
                 </Label>
                 <ListView fx:id="listViewMyGroups" layoutX="38.0" layoutY="80.0" prefHeight="250.0" prefWidth="200.0" />
                 <Label fx:id="groupLeaderLabel" layoutX="300.0" layoutY="27.0" prefHeight="17.0" prefWidth="300.0" />
-                <ListView fx:id="groupMembersListView" layoutX="300.0" layoutY="61.0" prefHeight="190.0" prefWidth="264.0" />
+                <ListView fx:id="groupMembersListView" layoutX="300.0" layoutY="80.0" prefHeight="190.0" prefWidth="264.0" />
             </children>
         </AnchorPane>
     </children>
