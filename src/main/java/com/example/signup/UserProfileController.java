@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserProfileController {
-    private Connection connection;
+    private final Connection connection;
 
-    private Logger logger;
+    private final Logger logger;
     public UserProfileController() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
         logger = Logger.getLogger(UserProfileController.class.getName());

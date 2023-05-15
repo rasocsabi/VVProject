@@ -43,7 +43,7 @@ public class ProjectMemberSearchController {
     @FXML
     private TextField textFieldCost;
 
-    private ObservableList<User> userList = FXCollections.observableArrayList();
+    private final ObservableList<User> userList = FXCollections.observableArrayList();
 
     public void initialize() {
         // Táblázat oszlopainak beállítása

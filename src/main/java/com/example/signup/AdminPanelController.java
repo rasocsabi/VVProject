@@ -45,7 +45,7 @@ public class AdminPanelController {
 
     @FXML
     private Button userProfileButton;
-    private ObservableList<String> userGroups = FXCollections.observableArrayList();
+    private final ObservableList<String> userGroups = FXCollections.observableArrayList();
     public void initialize() throws SQLException {
         String username = LoggedInController.getLoggedInUser();
         userId = LoggedInController.getUserIdFromDatabase(username);

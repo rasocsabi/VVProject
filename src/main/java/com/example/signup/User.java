@@ -19,7 +19,7 @@ class User {
     private double cost;
     private ObservableList<String> skills;
 
-    private ObservableList<String> groups;
+    private final ObservableList<String> groups;
 
     public User(int id, String username, String groupName) {
         this.id = id;
@@ -222,7 +222,7 @@ class User {
         double cost = 0.0;
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-             PreparedStatement statement = connection.prepareStatement("SELECT cost FROM users WHERE id = ?");
+             PreparedStatement statement = connection.prepareStatement("SELECT cost FROM users WHERE id = ?")
         ) {
             statement.setInt(1, id); // Az adott felhasználó id-je
             ResultSet resultSet = statement.executeQuery();
@@ -246,7 +246,7 @@ class User {
         List<String> skills = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-             PreparedStatement statement = connection.prepareStatement("SELECT skill_name FROM skills WHERE user_id = ?");
+             PreparedStatement statement = connection.prepareStatement("SELECT skill_name FROM skills WHERE user_id = ?")
         ) {
             statement.setInt(1, id); // Az adott felhasználó id-je
             ResultSet resultSet = statement.executeQuery();
