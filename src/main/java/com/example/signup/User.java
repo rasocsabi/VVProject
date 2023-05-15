@@ -160,7 +160,18 @@ class User {
     }
 
     public void setCost(String cost) {
-        // Implementáld a költség beállítását
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+            String updateQuery = "UPDATE users SET cost = ? WHERE id = ?";
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setString(1, cost);
+            updateStatement.setInt(2, id);
+            updateStatement.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getIdFromDatabase() {

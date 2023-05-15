@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signup.ProjectCalculatorController">
     <children>
         <VBox spacing="10" prefWidth="400" prefHeight="400" layoutX="100" layoutY="100">
@@ -29,5 +30,10 @@
             </HBox>
             <TextArea fx:id="resultTextArea" prefWidth="300" prefHeight="150" editable="false"/>
         </VBox>
+        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
+            <font>
+                <Font name="Calibri Bold" size="18.0" />
+            </font>
+        </Button>
     </children>
 </AnchorPane>

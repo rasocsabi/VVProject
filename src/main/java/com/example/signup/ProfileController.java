@@ -26,6 +26,8 @@ public class ProfileController implements Initializable {
 
     public Button Button_InsertToList;
     @FXML
+    public Button Button_Back;
+    @FXML
     private Button Button_AddSkill;
 
     @FXML
@@ -214,14 +216,36 @@ public class ProfileController implements Initializable {
         String newSkillName = TextField_NewSkill.getText().trim();
         if (!newSkillName.isEmpty()) {
             try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-                 PreparedStatement statement = connection.prepareStatement("INSERT INTO skills (username, skill_name, skill_level) VALUES (?, ?, ?)")) {
-                statement.setString(1, username);
-                statement.setString(2, newSkillName);
-                statement.setInt(3, 1);
-                statement.executeUpdate();
-                // sikeres hozzáadás esetén frissítjük a ListView-t
-                updateSkillsList();
-                TextField_NewSkill.clear();
+                 PreparedStatement statement = connection.prepareStatement("INSERT INTO skills (user_id, username, skill_name, skill_level) VALUES (?, ?, ?, ?)")) {
+
+                // Felhasználó ID lekérdezése
+                String query = "SELECT id FROM users WHERE username = ?";
+                PreparedStatement getUserIdStatement = connection.prepareStatement(query);
+                getUserIdStatement.setString(1, username);
+                ResultSet resultSet = getUserIdStatement.executeQuery();
+                int userId = 0;
+                if (resultSet.next()) {
+                    userId = resultSet.getInt("id");
+                }
+                resultSet.close();
+                getUserIdStatement.close();
+
+                // Paraméterek beállítása
+                statement.setInt(1, userId);
+                statement.setString(2, username);
+                statement.setString(3, newSkillName);
+                statement.setInt(4, 1);
+
+                // Beszúrás végrehajtása
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    // Sikeres hozzáadás esetén frissítjük a ListView-t
+                    updateSkillsList();
+                    TextField_NewSkill.clear();
+                } else {
+                    // Hibaüzenet
+                    System.out.println("Failed to add skill.");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -253,4 +277,5 @@ public class ProfileController implements Initializable {
             }
         }
     }
+
 }

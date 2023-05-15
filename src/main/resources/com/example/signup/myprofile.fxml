@@ -53,6 +53,11 @@
                           <Font name="Arial Rounded MT Bold" size="12.0" />
                       </font>
                   </Button>
+                <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: Grey;" text="Back" textFill="WHITE">
+                    <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                    </font>
+                </Button>
             </children>
         </AnchorPane>
     </children>

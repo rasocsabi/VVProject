@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class AdminPanelController {
@@ -127,50 +128,96 @@ public class AdminPanelController {
     @FXML
     private void handleAddUserToGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
-        String selectedGroup = listViewUserGroups.getSelectionModel().getSelectedItem();
 
         if (selectedUser != null) {
-            try {
-                // Keresés az id alapján a users táblában
-                String userIdQuery = "SELECT id FROM users WHERE username = ?";
-                PreparedStatement userIdStatement = connection.prepareStatement(userIdQuery);
-                userIdStatement.setString(1, selectedUser.getUsername());
-                ResultSet userIdResultSet = userIdStatement.executeQuery();
+            openGroupSelectionWindow(selectedUser);
 
-                if (userIdResultSet.next()) {
-                    int userId = userIdResultSet.getInt("id");
-
-                    // Csoport hozzáadása a groupuser táblához
-                    String groupIdQuery = "SELECT id FROM groups WHERE groupname = ?";
-                    PreparedStatement groupIdStatement = connection.prepareStatement(groupIdQuery);
-                    groupIdStatement.setString(1, selectedGroup);
-                    ResultSet groupIdResultSet = groupIdStatement.executeQuery();
-
-                    if (groupIdResultSet.next()) {
-                        int groupId = groupIdResultSet.getInt("id");
-
-                        String insertQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
-                        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-                        insertStatement.setInt(1, userId);
-                        insertStatement.setInt(2, groupId);
-                        insertStatement.executeUpdate();
-
-                        showAlert("Success", "User Added to Group", "User successfully added to the group.");
-                    } else {
-                        showWarningAlert("Invalid Group", "The selected group is invalid.");
-                    }
-                } else {
-                    showWarningAlert("User Not Found", "The selected user does not exist.");
-                }
-            } catch (SQLException e) {
-                showAlert("Error", "Failed to Add User to Group", "An error occurred while adding the user to the group.");
-                e.printStackTrace();
-            }
         } else {
-            showWarningAlert("Invalid Selection", "Please select a user and a group.");
+            showWarningAlert("Invalid Selection", "Please select a user.");
         }
     }
 
+    private void openGroupSelectionWindow(User user) {
+        try {
+            // Betöltjük a GroupSelection.fxml fájlt
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("groupselector.fxml"));
+            Parent root = loader.load();
+
+            // Létrehozzuk a GroupSelectionController példányt
+            GroupSelectionController controller = loader.getController();
+            controller.setUser(user);
+            controller.setAdminPanelController(this);
+
+            // Létrehozunk egy új ablakot (Stage)
+            Stage stage = new Stage();
+            stage.setTitle("Group Selection");
+            stage.setScene(new Scene(root));
+
+            // Megjelenítjük az ablakot
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
+    }
+
+    public void assignUserToGroup(User user, String groupName) {
+        try {
+            // Felhasználónevének lekérése
+            String username = user.getUsername();
+
+            // Felhasználó ID lekérdezése az adatbázisból
+            int userId = getUserIdByUsername(username);
+            System.out.println(userId);
+
+            // Csoport ID lekérdezése
+            int groupId = getGroupId(groupName);
+
+            if (groupId != -1) {
+                // Csoport-hozzárendelés végrehajtása
+                String insertQuery = "INSERT INTO groupuser (userid, groupid) VALUES (?, ?)";
+                PreparedStatement statement = connection.prepareStatement(insertQuery);
+                statement.setInt(1, userId);
+                statement.setInt(2, groupId);
+                statement.executeUpdate();
+
+                showAlert("Success", "User Added to Group", "User successfully added to the group.");
+            } else {
+                showWarningAlert("Invalid Group", "The selected group is invalid.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to Add User to Group", "An error occurred while adding the user to the group.");
+        }
+    }
+
+    private int getUserIdByUsername(String username) throws SQLException {
+        String query = "SELECT id FROM users WHERE username = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, username);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt("id");
+        }
+        return -1; // Ha nem található a felhasználó, akkor -1-et adunk vissza
+    }
+
+    private int getGroupId(String groupName) {
+        try {
+            String query = "SELECT id FROM groups WHERE groupname = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, groupName);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
     @FXML
     private void handleRemoveUserFromGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();

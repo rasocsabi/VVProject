@@ -2,6 +2,7 @@ package com.example.signup;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -52,9 +53,9 @@ public class ProjectCalculatorController {
             int hoursWorked = Integer.parseInt(hoursWorkedField.getText());
 
             // Számítások
-            totalHours += hoursWorked;
             double hourlyRate = calculateHourlyRate(user); // Felhasználó órabére
             double userCost = hoursWorked * hourlyRate; // Felhasználó költsége
+            totalHours += hoursWorked;
             totalCost += userCost;
 
             // Eredmények összeállítása
@@ -113,6 +114,10 @@ public class ProjectCalculatorController {
             TextField removedField = hoursWorkedMap.remove(removedUser);
             hoursWorkedListView.getItems().remove(removedField);
         }
+    }
+    @FXML
+    private void handleBackButton(ActionEvent event) {
+        DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
     }
 
 }
