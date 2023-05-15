@@ -7,22 +7,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyGroupsController {
     @FXML
     public Label groupLeaderLabel;
-   @FXML
-   public ListView<Object> groupMembersListView;
+    @FXML
+    public ListView<Object> groupMembersListView;
     @FXML
     private ListView<String> listViewMyGroups;
-
 
 
     @FXML
@@ -31,6 +26,15 @@ public class MyGroupsController {
 
     private Connection connection;
     private int userId; // Az osztályszintű változó
+
+    public MyGroupsController() {
+        // Inicializálás, adatbázis kapcsolat létrehozása
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void initialize() throws SQLException {
         // A userId közvetlen hozzáférése az osztályszintű változóhoz
@@ -45,15 +49,6 @@ public class MyGroupsController {
     private void handleBackButton(ActionEvent event) {
         DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
     }
-    public MyGroupsController() {
-        // Inicializálás, adatbázis kapcsolat létrehozása
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void loadUserGroups() throws SQLException {
         List<String> userGroups = new ArrayList<>();
@@ -119,6 +114,7 @@ public class MyGroupsController {
         listViewMyGroups.getItems().addAll(userGroups);
         listViewMyGroups.setCellFactory(TextFieldListCell.forListView());
     }
+
     private List<String> getGroupMembers(String groupName) throws SQLException {
         List<String> groupMembers = new ArrayList<>();
         String query = "SELECT users.username " +

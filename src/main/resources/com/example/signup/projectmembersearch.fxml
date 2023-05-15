@@ -2,46 +2,45 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-
-<GridPane fx:controller="com.example.signup.ProjectMemberSearchController" xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.signup.ProjectMemberSearchController"
+          alignment="center" hgap="10" vgap="10">
     <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints />
+        <ColumnConstraints/>
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
     </rowConstraints>
 
-    <Label text="Név:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-    <TextField fx:id="textFieldName" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <Label text="Név:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <TextField fx:id="textFieldName" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-    <Label text="Skill:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-    <ComboBox fx:id="comboBoxSkill" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label text="Skill:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <ComboBox fx:id="comboBoxSkill" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-    <Label text="Skill szint:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-    <ComboBox fx:id="comboBoxSkillLevel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Label text="Skill szint:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <ComboBox fx:id="comboBoxSkillLevel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-    <Label text="Cost (Minimum):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-    <TextField fx:id="textFieldCostMin" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Label text="Cost (Minimum):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="textFieldCostMin" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-    <Label text="Cost (Maximum):" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-    <TextField fx:id="textFieldCostMax" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label text="Cost (Maximum):" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <TextField fx:id="textFieldCostMax" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-    <Button text="Keresés" GridPane.columnIndex="0" GridPane.rowIndex="5" onAction="#handleSearchButton" />
-    <Button text="Clear" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#handleClearButton" />
+    <Button text="Keresés" GridPane.columnIndex="0" GridPane.rowIndex="5" onAction="#handleSearchButton"/>
+    <Button text="Clear" GridPane.columnIndex="1" GridPane.rowIndex="5" onAction="#handleClearButton"/>
 
     <TableView fx:id="tableViewUsers" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2">
         <columns>
-            <TableColumn text="Felhasználónév" fx:id="columnUsername" />
-            <TableColumn text="Cost" fx:id="columnCost" />
-            <TableColumn text="Skill" fx:id="columnSkill" />
-            <TableColumn text="Skill szint" fx:id="columnSkillLevel" />
+            <TableColumn text="Felhasználónév" fx:id="columnUsername"/>
+            <TableColumn text="Cost" fx:id="columnCost"/>
+            <TableColumn text="Skill" fx:id="columnSkill"/>
+            <TableColumn text="Skill szint" fx:id="columnSkillLevel"/>
         </columns>
     </TableView>
 </GridPane>

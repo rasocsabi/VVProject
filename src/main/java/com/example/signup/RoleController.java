@@ -69,6 +69,7 @@ public class RoleController {
         // Adatok hozzáadása az adatbázishoz
         insertRoleToDatabase(newRole);
     }
+
     private void insertRoleToDatabase(Role role) {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
              PreparedStatement statement = connection.prepareStatement("INSERT INTO roles (id, username, role) VALUES (?, ?, ?)")) {

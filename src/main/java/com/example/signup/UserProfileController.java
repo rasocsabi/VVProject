@@ -2,7 +2,10 @@ package com.example.signup;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -13,49 +16,34 @@ public class UserProfileController {
     private final Connection connection;
 
     private final Logger logger;
-    public UserProfileController() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-        logger = Logger.getLogger(UserProfileController.class.getName());
-    }
-
     @FXML
     public Button insertButton;
     @FXML
     private Label nameLabel;
-
     @FXML
     private Label groupLabel;
-
     @FXML
     private ListView<String> skillsListView;
-
     @FXML
     private Button editNameButton;
-
     @FXML
     private Button editGroupButton;
-
     @FXML
     private Button addSkillButton;
-
     @FXML
     private Button removeSkillButton;
-
     @FXML
     private Button addSkillLevelButton;
-
     @FXML
     private Button setCostButton;
-
     private User user;
-
-
-
-
-
-
     private boolean isModified; // Módosítás történt-e
 
+
+    public UserProfileController() throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+        logger = Logger.getLogger(UserProfileController.class.getName());
+    }
 
     public void setUser(User user) {
         this.user = user;
@@ -70,6 +58,7 @@ public class UserProfileController {
         isModified = true;
 
     }
+
     @FXML
     private void handleInsertButton() {
         if (isModified) {
@@ -92,6 +81,7 @@ public class UserProfileController {
             stage.close(); // Ablak bezárása
         }
     }
+
     private void updateUserInDatabase(User user) throws SQLException {
         String updateQuery = "UPDATE users SET username = ? WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(updateQuery);
@@ -133,6 +123,7 @@ public class UserProfileController {
             return -1; // Az adott névvel nem találtunk csoportot az adatbázisban
         }
     }
+
     private void updateSkillsInDatabase(ObservableList<String> skills) throws SQLException {
         // Töröljük a felhasználó korábbi készségeit az adatbázisból
         String deleteQuery = "DELETE FROM skills WHERE username = ?";

@@ -121,6 +121,7 @@ public class ProjectCalculatorController {
             hoursWorkedListView.getItems().remove(removedField);
         }
     }
+
     @FXML
     private void handleBackButton(ActionEvent event) {
         DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);

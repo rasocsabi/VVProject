@@ -3,23 +3,18 @@ package com.example.signup;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 class User {
+    private final ObservableList<String> groups;
     private int id;
     private String username;
     private String groupName;
     private String role;
     private double cost;
     private ObservableList<String> skills;
-
-    private final ObservableList<String> groups;
 
     public User(int id, String username, String groupName) {
         this.id = id;
@@ -119,6 +114,10 @@ class User {
         return username;
     }
 
+    public void setName(String name) {
+        this.username = name;
+    }
+
     public String getGroup(int userId) {
         String groupName = "";
         try {
@@ -162,31 +161,12 @@ class User {
         return skills;
     }
 
-    public void setName(String name) {
-        this.username = name;
-    }
-
     public void setGroup(String group) {
         this.groupName = group;
     }
 
     public void removeSkill(String selectedSkill) {
         skills.remove(selectedSkill);
-    }
-
-    public void setCost(String cost) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-            String updateQuery = "UPDATE users SET cost = ? WHERE id = ?";
-            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-            updateStatement.setString(1, cost);
-            updateStatement.setInt(2, id);
-            updateStatement.executeUpdate();
-
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public int getIdFromDatabase() {
@@ -238,7 +218,20 @@ class User {
         return cost;
     }
 
+    public void setCost(String cost) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+            String updateQuery = "UPDATE users SET cost = ? WHERE id = ?";
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setString(1, cost);
+            updateStatement.setInt(2, id);
+            updateStatement.executeUpdate();
 
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getSkill() {
 
@@ -262,7 +255,7 @@ class User {
 
         return String.join(", ", skills); // Skill-ök vesszővel elválasztott listája
 
-}
+    }
 
     public int getSkillLevel() {
         // Itt kell lekérdezni a felhasználó skill-szintjét az adatbázisból és visszaadni

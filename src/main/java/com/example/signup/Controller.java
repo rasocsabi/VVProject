@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
     @FXML
     private Button Button_LogIn;
@@ -23,23 +23,23 @@ public class Controller implements Initializable{
 
     @FXML
     private TextField TextField_Password;
-    
+
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
-        Button_LogIn.setOnAction(new EventHandler<ActionEvent>(){
+    public void initialize(URL location, ResourceBundle resources) {
+        Button_LogIn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 DatabaseUtils.logInUser(event, TextField_Username.getText(), TextField_Password.getText());
             }
         });
 
-        Button_SignUp.setOnAction(new EventHandler<ActionEvent>(){
+        Button_SignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 DatabaseUtils.changeScene(event, "sign-up.fxml", "Sign Up!", null, null);
             }
         });
     }
-    
+
 }

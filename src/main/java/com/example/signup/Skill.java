@@ -3,13 +3,20 @@ package com.example.signup;
 public class Skill {
     private String username;
     private String skillName;
+    private int skillLevel;
 
     public Skill(String skillName, int skillLevel) {
 
 
-            this.skillName = skillName;
-            this.skillLevel = skillLevel;
+        this.skillName = skillName;
+        this.skillLevel = skillLevel;
 
+    }
+
+    public Skill(String username, String skillName, int skillLevel) {
+        this.username = username;
+        this.skillName = skillName;
+        this.skillLevel = skillLevel;
     }
 
     public int getSkillLevel() {
@@ -17,14 +24,6 @@ public class Skill {
     }
 
     public void setSkillLevel(int skillLevel) {
-        this.skillLevel = skillLevel;
-    }
-
-    private int skillLevel;
-
-    public Skill(String username, String skillName, int skillLevel) {
-        this.username = username;
-        this.skillName = skillName;
         this.skillLevel = skillLevel;
     }
 

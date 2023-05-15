@@ -2,7 +2,6 @@ package com.example.signup;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 
 public class Role {
     private int id;
@@ -19,20 +18,20 @@ public class Role {
         return id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public void setRole(String role) {

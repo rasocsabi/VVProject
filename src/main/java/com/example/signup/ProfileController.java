@@ -1,16 +1,5 @@
 package com.example.signup;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,9 +8,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
 public class ProfileController implements Initializable {
 
-   @FXML
+    @FXML
     public Button Button_InsertToList;
     @FXML
     public Button Button_Back;
@@ -54,6 +50,7 @@ public class ProfileController implements Initializable {
     private void handleBackButton(ActionEvent event) {
         DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -77,7 +74,7 @@ public class ProfileController implements Initializable {
             ex.printStackTrace();
         }
 
-        username= LoggedInController.getLoggedInUser();
+        username = LoggedInController.getLoggedInUser();
 
         // A név beállítása a Label_Name-en
         Label_Name.setText(username);
@@ -255,11 +252,13 @@ public class ProfileController implements Initializable {
             }
         }
     }
+
     @FXML
     private void handleInsertToListAction(ActionEvent event) {
 
         handleAddSkillAction(null);
     }
+
     @FXML
     void handleDeleteSkillAction(ActionEvent event) {
         String selectedSkill = ListView_Skills.getSelectionModel().getSelectedItem();
@@ -281,6 +280,7 @@ public class ProfileController implements Initializable {
             }
         }
     }
+
     @FXML
     private void handleEditNameButton(ActionEvent event) {
         TextInputDialog dialog = new TextInputDialog(username);
@@ -305,6 +305,7 @@ public class ProfileController implements Initializable {
             }
         }
     }
+
     private void updateUsername(String newName) {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
              PreparedStatement statement = connection.prepareStatement("UPDATE users SET username = ? WHERE username = ?")) {

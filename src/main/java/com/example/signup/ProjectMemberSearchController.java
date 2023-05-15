@@ -11,7 +11,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProjectMemberSearchController {
+    private final ObservableList<User> userList = FXCollections.observableArrayList();
     @FXML
     public TextField textFieldCostMin;
     @FXML
@@ -33,7 +33,6 @@ public class ProjectMemberSearchController {
     private TableColumn<User, String> columnSkill;
     @FXML
     private TableColumn<User, Integer> columnSkillLevel;
-
     @FXML
     private TextField textFieldName;
     @FXML
@@ -42,8 +41,6 @@ public class ProjectMemberSearchController {
     private ComboBox<Integer> comboBoxSkillLevel;
     @FXML
     private TextField textFieldCost;
-
-    private final ObservableList<User> userList = FXCollections.observableArrayList();
 
     public void initialize() {
         // Táblázat oszlopainak beállítása
@@ -62,6 +59,7 @@ public class ProjectMemberSearchController {
         userList.addAll(getUsersFromDatabase());
         tableViewUsers.setItems(userList);
     }
+
     private List<String> getSkillsFromDatabase() {
         List<String> skills = new ArrayList<>();
 
@@ -117,7 +115,6 @@ public class ProjectMemberSearchController {
 
         return users;
     }
-
 
 
     @FXML

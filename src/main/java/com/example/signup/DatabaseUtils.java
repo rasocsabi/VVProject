@@ -1,13 +1,5 @@
 package com.example.signup;
 
-import java.io.IOException;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,7 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.sql.*;
+
 public class DatabaseUtils {
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/vvdata";
+    private static final String USERNAME = "vvapp";
+    private static final String PASSWORD = "vvapp123";
 
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String username, String status) {
         Parent root = null;
@@ -160,10 +159,6 @@ public class DatabaseUtils {
             }
         }
     }
-
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/vvdata";
-    private static final String USERNAME = "vvapp";
-    private static final String PASSWORD = "vvapp123";
 
     public static Connection getConnection() throws SQLException {
         try {

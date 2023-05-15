@@ -4,12 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignUpController implements Initializable{
+public class SignUpController implements Initializable {
 
     @FXML
     private Button Button_SignUp;
@@ -30,16 +33,16 @@ public class SignUpController implements Initializable{
     private TextField TextField_Password;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
 
 
-            Button_SignUp.setOnAction(new EventHandler<ActionEvent>(){
+        Button_SignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 String toggleName = "1";
-                if(!TextField_Username.getText().trim().isEmpty() && !TextField_Password.getText().trim().isEmpty()){
+                if (!TextField_Username.getText().trim().isEmpty() && !TextField_Password.getText().trim().isEmpty()) {
                     DatabaseUtils.signUpUser(event, TextField_Username.getText(), TextField_Password.getText(), toggleName);
-                }else{
+                } else {
                     System.out.println("Please fill all information!");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Please fill all information!");
@@ -47,12 +50,12 @@ public class SignUpController implements Initializable{
                 }
             }
         });
-            Button_LogIn.setOnAction(new EventHandler<ActionEvent>(){
-                @Override
-                public void handle(ActionEvent event){
-                    DatabaseUtils.changeScene(event, "log-in.fxml", "Login!", null, null);
+        Button_LogIn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DatabaseUtils.changeScene(event, "log-in.fxml", "Login!", null, null);
             }
         });
     }
-    
+
 }

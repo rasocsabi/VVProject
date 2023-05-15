@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signup.ProjectCalculatorController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19"
+            fx:controller="com.example.signup.ProjectCalculatorController">
     <children>
         <VBox layoutX="14.0" layoutY="14.0" prefHeight="400" prefWidth="400" spacing="10">
             <HBox spacing="10" style="-fx-alignment: CENTER;">
-                <Label style="-fx-font-size: 14px;" text="Project Name:" />
-                <TextField fx:id="projectNameField" style="-fx-font-size: 14px;" />
+                <Label style="-fx-font-size: 14px;" text="Project Name:"/>
+                <TextField fx:id="projectNameField" style="-fx-font-size: 14px;"/>
             </HBox>
-            <HBox spacing="10" style="-fx-alignment: CENTER;" />
+            <HBox spacing="10" style="-fx-alignment: CENTER;"/>
             <HBox spacing="10">
-                <ListView fx:id="userList" prefHeight="200" prefWidth="150" style="-fx-font-size: 14px; -fx-background-color: gray;" />
-                <ListView fx:id="hoursWorkedListView" prefHeight="200" prefWidth="150" style="-fx-font-size: 14px; -fx-background-color: gray;" />
+                <ListView fx:id="userList" prefHeight="200" prefWidth="150"
+                          style="-fx-font-size: 14px; -fx-background-color: gray;"/>
+                <ListView fx:id="hoursWorkedListView" prefHeight="200" prefWidth="150"
+                          style="-fx-font-size: 14px; -fx-background-color: gray;"/>
             </HBox>
-            <HBox spacing="10" style="-fx-alignment: CENTER;" />
-             <Button onAction="#handleAddUserButton" style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Add User" />
-             <Button onAction="#handleRemoveUserButton" style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Remove User" />
+            <HBox spacing="10" style="-fx-alignment: CENTER;"/>
+            <Button onAction="#handleAddUserButton"
+                    style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Add User"/>
+            <Button onAction="#handleRemoveUserButton"
+                    style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Remove User"/>
         </VBox>
-        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: gray; -fx-text-fill: white;" text="Back">
+        <Button fx:id="Button_Back" alignment="CENTER" contentDisplay="CENTER" layoutX="440.0" layoutY="356.0"
+                mnemonicParsing="false" onAction="#handleBackButton" prefHeight="35.0" prefWidth="150.0"
+                style="-fx-background-color: gray; -fx-text-fill: white;" text="Back">
             <font>
-                <Font name="Calibri Bold" size="18.0" />
+                <Font name="Calibri Bold" size="18.0"/>
             </font>
         </Button>
-        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="438.0" layoutY="300.0" onAction="#handleSearchMembers" prefHeight="35.0" prefWidth="150.0" style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Search Members" />
-         <TextArea fx:id="resultTextArea" editable="false" layoutX="356.0" layoutY="51.0" prefHeight="200.0" prefWidth="157.0" style="-fx-font-size: 14px; -fx-background-color: gray;" />
-          <Button layoutX="412.0" layoutY="251.0" onAction="#handleCalculateButton" style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Calculate" />
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="438.0" layoutY="300.0"
+                onAction="#handleSearchMembers" prefHeight="35.0" prefWidth="150.0"
+                style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Search Members"/>
+        <TextArea fx:id="resultTextArea" editable="false" layoutX="356.0" layoutY="51.0" prefHeight="200.0"
+                  prefWidth="157.0" style="-fx-font-size: 14px; -fx-background-color: gray;"/>
+        <Button layoutX="412.0" layoutY="251.0" onAction="#handleCalculateButton"
+                style="-fx-font-size: 14px; -fx-background-color: gray; -fx-text-fill: white;" text="Calculate"/>
     </children>
 </AnchorPane>

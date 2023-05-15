@@ -14,38 +14,36 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.example.signup.RoleUtils.getUserRole;
 
 public class AdminPanelController {
+    private static final Logger LOGGER = Logger.getLogger(AdminPanelController.class.getName());
+    private final ObservableList<String> userGroups = FXCollections.observableArrayList();
     @FXML
     public ListView<String> listViewUserGroups;
     @FXML
     TextField groupNameField;
-
-
-
     @FXML
     private Label Label_Name;
-
-
-
     @FXML
     private TableView<User> tableViewUsers;
-
     @FXML
     private TableColumn<User, String> columnUsername;
-
     private Connection connection;
     private int userId;
-
-    private static final Logger LOGGER = Logger.getLogger(AdminPanelController.class.getName());
-
     @FXML
     private Button userProfileButton;
-    private final ObservableList<String> userGroups = FXCollections.observableArrayList();
+
+    public AdminPanelController() {
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void initialize() throws SQLException {
         String username = LoggedInController.getLoggedInUser();
         userId = LoggedInController.getUserIdFromDatabase(username);
@@ -62,14 +60,6 @@ public class AdminPanelController {
                 openUserProfile(selectedUser);
             }
         });
-    }
-
-    public AdminPanelController() {
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -100,6 +90,7 @@ public class AdminPanelController {
             // Hiba kezelése
         }
     }
+
     private void loadUsers() throws SQLException {
         columnUsername.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
 
@@ -122,12 +113,13 @@ public class AdminPanelController {
             String username = resultSet.getString("username");
             String groupName = resultSet.getString("groupname");
 
-            User user = new User(userId,username, groupName);
+            User user = new User(userId, username, groupName);
             userList.add(user);
         }
 
         tableViewUsers.setItems(userList);
     }
+
     @FXML
     private void handleAddUserToGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
@@ -221,6 +213,7 @@ public class AdminPanelController {
 
         return -1;
     }
+
     @FXML
     private void handleRemoveUserFromGroup() {
         User selectedUser = tableViewUsers.getSelectionModel().getSelectedItem();
@@ -345,7 +338,7 @@ public class AdminPanelController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             // Nincs jogosultság
             System.out.println("Nincs jogosultságod a művelet végrehajtásához.");
         }
