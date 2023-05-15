@@ -32,16 +32,16 @@ public class SignUpController implements Initializable {
     @FXML
     private TextField TextField_Password;
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         Button_SignUp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String toggleName = "1";
-                if (!TextField_Username.getText().trim().isEmpty() && !TextField_Password.getText().trim().isEmpty()) {
-                    DatabaseUtils.signUpUser(event, TextField_Username.getText(), TextField_Password.getText(), toggleName);
+                String username = TextField_Username.getText().trim();
+                String password = TextField_Password.getText().trim();
+
+                if (!username.isEmpty() && !password.isEmpty()) {
+                    DatabaseUtils.signUpUser(event, username, password, toggleName);
                 } else {
                     System.out.println("Please fill all information!");
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -50,6 +50,7 @@ public class SignUpController implements Initializable {
                 }
             }
         });
+
         Button_LogIn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
