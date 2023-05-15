@@ -35,5 +35,6 @@
                 <Font name="Calibri Bold" size="18.0" />
             </font>
         </Button>
+        <Button text="Search Members" layoutX="240.0" layoutY="256.0" onAction="#handleSearchMembers"/>
     </children>
 </AnchorPane>

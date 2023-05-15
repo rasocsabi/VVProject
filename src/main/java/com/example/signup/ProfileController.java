@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -16,11 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class ProfileController implements Initializable {
 
@@ -276,6 +273,64 @@ public class ProfileController implements Initializable {
                 System.out.println(e.getMessage());
             }
         }
+    }
+    @FXML
+    private void handleEditNameButton(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog(username);
+        dialog.setTitle("Edit Name");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter your new name:");
+
+        // Megjeleníti a dialógust és bekéri az új nevet
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String newName = result.get();
+
+            // Ellenőrizzük, hogy az új név nem üres
+            if (!newName.isEmpty()) {
+                // Frissítjük a felhasználó nevét az adatbázisban
+                updateUsername(newName);
+                Label_Name.setText(newName);
+                username = newName;
+            } else {
+                // Hibaüzenet, ha az új név üres
+                showErrorMessage("Name cannot be empty!");
+            }
+        }
+    }
+    private void updateUsername(String newName) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("UPDATE users SET username = ? WHERE username = ?")) {
+            statement.setString(1, newName);
+            statement.setString(2, username);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                // Sikeres frissítés
+                showInformationMessage("Name updated successfully!");
+            } else {
+                // Hibaüzenet, ha a frissítés nem sikerült
+                showErrorMessage("Failed to update name.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showErrorMessage("An error occurred while updating name.");
+        }
+    }
+
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showInformationMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }

@@ -4,6 +4,14 @@ public class Skill {
     private String username;
     private String skillName;
 
+    public Skill(String skillName, int skillLevel) {
+
+
+            this.skillName = skillName;
+            this.skillLevel = skillLevel;
+
+    }
+
     public int getSkillLevel() {
         return skillLevel;
     }
@@ -17,7 +25,7 @@ public class Skill {
     public Skill(String username, String skillName, int skillLevel) {
         this.username = username;
         this.skillName = skillName;
-        this.skillLevel = 1;
+        this.skillLevel = skillLevel;
     }
 
     public String getUsername() {

@@ -4,14 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProjectCalculatorController {
-
+    @FXML
+    public Button Button_Back;
     @FXML
     private TextField projectNameField;
 
@@ -120,4 +126,19 @@ public class ProjectCalculatorController {
         DatabaseUtils.changeScene(event, "logged-in.fxml", "Logged in!", null, null);
     }
 
+    @FXML
+    private void handleSearchMembers(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("projectmembersearch.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Search Members");
+            stage.setScene(new Scene(root));
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -8,12 +8,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 class User {
     private int id;
     private String username;
     private String groupName;
     private String role;
+    private double cost;
     private ObservableList<String> skills;
 
     private ObservableList<String> groups;
@@ -25,6 +28,17 @@ class User {
         this.role = "";
         this.skills = FXCollections.observableArrayList();
         this.groups = FXCollections.observableArrayList();
+    }
+
+    public User(int userId, String username, String userCost, List<Skill> skills) {
+        this.id = userId;
+        this.username = username;
+        this.groupName = userCost;
+        this.skills = FXCollections.observableArrayList();
+        this.groups = FXCollections.observableArrayList();
+        for (Skill skill : skills) {
+            this.skills.add(skill.getSkillName());
+        }
     }
 
     public int getId() {
@@ -66,6 +80,7 @@ class User {
             e.printStackTrace();
         }
     }
+
 
     public void setSkillLevel(String skill, int level) {
         for (int i = 0; i < skills.size(); i++) {
@@ -201,5 +216,103 @@ class User {
         String[] groupArray = new String[groups.size()];
         groupArray = groups.toArray(groupArray);
         return groupArray;
+    }
+
+    public double getCost() {
+        double cost = 0.0;
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("SELECT cost FROM users WHERE id = ?");
+        ) {
+            statement.setInt(1, id); // Az adott felhasználó id-je
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                cost = resultSet.getDouble("cost");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
+
+        return cost;
+    }
+
+
+
+    public String getSkill() {
+
+
+        List<String> skills = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("SELECT skill_name FROM skills WHERE user_id = ?");
+        ) {
+            statement.setInt(1, id); // Az adott felhasználó id-je
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String skillName = resultSet.getString("skill_name");
+                skills.add(skillName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
+
+        return String.join(", ", skills); // Skill-ök vesszővel elválasztott listája
+
+}
+
+    public int getSkillLevel() {
+        // Itt kell lekérdezni a felhasználó skill-szintjét az adatbázisból és visszaadni
+        // Az alábbi példa azt feltételezi, hogy a skill-szintek a skills táblában vannak és a user_id alapján lekérdezhetők
+        int maxSkillLevel = getMaxSkillLevelFromDatabase(); // Függvény, ami lekérdezi a felhasználó legnagyobb skill-szintjét
+        return maxSkillLevel;
+    }
+
+    // Adatbázisból skill-ök lekérdezése user_id alapján
+    private List<String> getSkillsFromDatabase() {
+        List<String> skills = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("SELECT skill_name FROM skills WHERE user_id = ?")) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String skillName = resultSet.getString("skill_name");
+                skills.add(skillName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
+
+        return skills;
+    }
+
+    // Adatbázisból legnagyobb skill-szint lekérdezése user_id alapján
+    private int getMaxSkillLevelFromDatabase() {
+        int maxSkillLevel = 0;
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/vvdata", "vvapp", "vvapp123");
+             PreparedStatement statement = connection.prepareStatement("SELECT MAX(skill_level) AS max_level FROM skills WHERE user_id = ?")) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                maxSkillLevel = resultSet.getInt("max_level");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Hiba kezelése
+        }
+
+        return maxSkillLevel;
     }
 }

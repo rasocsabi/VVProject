@@ -58,6 +58,7 @@
                         <Font name="Calibri Bold" size="18.0" />
                     </font>
                 </Button>
+                <Button text="Edit My Name" onAction="#handleEditNameButton"/>
             </children>
         </AnchorPane>
     </children>
