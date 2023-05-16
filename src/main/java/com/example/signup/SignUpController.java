@@ -21,12 +21,6 @@ public class SignUpController implements Initializable {
     private Button Button_LogIn;
 
     @FXML
-    private RadioButton RadioButton_Creator;
-
-    @FXML
-    private RadioButton RadioButton_Consumer;
-
-    @FXML
     private TextField TextField_Username;
 
     @FXML
